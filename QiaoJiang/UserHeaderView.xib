@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="UserHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_bgimg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="YKo-sU-6qO">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="180"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="| 发布过的文章 |" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j45-ex-qqu">
+                    <rect key="frame" x="121" y="151" width="133" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="133" id="hiZ-0w-Nvt"/>
+                        <constraint firstAttribute="height" constant="21" id="syi-LR-x2v"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69z-SH-ULh">
+                    <rect key="frame" x="98" y="111" width="179" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="179" id="4xs-76-i0n"/>
+                        <constraint firstAttribute="height" constant="21" id="G3X-NG-VhN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-XI-vG2">
+                    <rect key="frame" x="157" y="43" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="J6R-XI-vG2" secondAttribute="height" multiplier="1:1" id="Egp-l8-uGq"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="J6R-XI-vG2" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="5l3-9r-flD"/>
+                <constraint firstAttribute="bottom" secondItem="j45-ex-qqu" secondAttribute="bottom" constant="8" id="ERs-Eq-0JK"/>
+                <constraint firstAttribute="bottom" secondItem="YKo-sU-6qO" secondAttribute="bottom" id="EUZ-ef-JFK"/>
+                <constraint firstItem="j45-ex-qqu" firstAttribute="top" secondItem="69z-SH-ULh" secondAttribute="bottom" constant="19" id="KAd-0p-oS5"/>
+                <constraint firstAttribute="trailing" secondItem="J6R-XI-vG2" secondAttribute="trailing" constant="158" id="OXd-GD-fqq"/>
+                <constraint firstItem="J6R-XI-vG2" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="157" id="Tqk-lR-Axp"/>
+                <constraint firstItem="j45-ex-qqu" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="TuO-X1-JpA"/>
+                <constraint firstItem="J6R-XI-vG2" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="43" id="aiA-Ms-Dyh"/>
+                <constraint firstItem="YKo-sU-6qO" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="det-ST-dIc"/>
+                <constraint firstItem="69z-SH-ULh" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="ehO-pM-AVI"/>
+                <constraint firstAttribute="trailing" secondItem="YKo-sU-6qO" secondAttribute="trailing" id="rZV-UV-qk8"/>
+                <constraint firstItem="69z-SH-ULh" firstAttribute="top" secondItem="J6R-XI-vG2" secondAttribute="bottom" constant="8" id="yeK-rZ-GkR"/>
+                <constraint firstItem="YKo-sU-6qO" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="zXr-iC-XCr"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="OXd-GD-fqq"/>
+                    <exclude reference="Tqk-lR-Axp"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="bgImage" destination="YKo-sU-6qO" id="M6o-2x-xKR"/>
+                <outlet property="name" destination="69z-SH-ULh" id="p6z-T1-e2k"/>
+                <outlet property="userImage" destination="J6R-XI-vG2" id="AQD-gA-ppD"/>
+            </connections>
+            <point key="canvasLocation" x="344.5" y="309"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="user_bgimg.jpg" width="649" height="351"/>
+    </resources>
+</document>
