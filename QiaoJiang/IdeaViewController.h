@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface IdeaViewController : UIViewController
+@interface IdeaViewController : BaseVC
 
 @end

@@ -31,7 +31,6 @@
 
 -(void)resetNavigation
 {
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"家装创意";
     //设置导航右button
@@ -46,7 +45,7 @@
 //加载tableView
 -(void)initTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenSize.width, kScreenSize.height-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width, kScreenSize.height-kTopHeight) style:UITableViewStyleGrouped];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.scrollsToTop = YES;
@@ -107,8 +106,7 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSString *url = [NSString stringWithFormat:kDetail,self.group_id];
-    [[NetworkHelper shareInstance] Get:url parameter:nil success:^(id responseObject) {
-        
+    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         dm = [[IdeaDetailModel alloc] initWithDictionary:responseObject[@"data"] error:nil];
         [self.dataSource addObjectsFromArray:dm.relatedIdea];
         
@@ -117,7 +115,7 @@
         [_hv refreshUI:dm];
         [self initWebView:dm.userCase.content]; //webView加载html请求
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    } failure:^(NSError *error) {
+    } failure:^(NSError * _Nonnull error) {
         
     }];
 }

@@ -93,7 +93,7 @@
     hud.labelText = @"正在加载...";
     
     NSString *urlStr = [NSString stringWithFormat:kIdea,self.page];
-    [[NetworkHelper shareInstance] Get:urlStr parameter:nil success:^(id responseObject) {
+    [[HDNetworking sharedHDNetworking] GET:urlStr parameters:nil success:^(id  _Nonnull responseObject) {
         if ([_collectionView.mj_header isRefreshing]) {
             [self.dataSource removeAllObjects];
         }
@@ -106,14 +106,12 @@
             }
             [self.dataSource addObject:im];
         }
-//        NSLog(@"%@",self.dataSource);
+        //        NSLog(@"%@",self.dataSource);
         [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.parentViewController.view animated:YES];
-        
-    } failure:^(NSError *error) {
-        NSLog(@"error = %@",error);
+    } failure:^(NSError * _Nonnull error) {
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
     }];

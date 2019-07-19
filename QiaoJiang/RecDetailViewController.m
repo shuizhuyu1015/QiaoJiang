@@ -31,7 +31,6 @@
 
 -(void)resetNavigation
 {
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
     self.navigationItem.title = @"小匠推荐";
     //设置导航右button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -46,7 +45,7 @@
 //加载tableView
 -(void)initTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEI-kTopHeight) style:UITableViewStyleGrouped];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.scrollsToTop = YES;
@@ -76,7 +75,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self resetNavigation];
     
@@ -108,8 +106,7 @@
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSString *url = [NSString stringWithFormat:kRecDetail,self.tid];
-    [[NetworkHelper shareInstance] Get:url parameter:nil success:^(id responseObject) {
-        
+    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         rdm = [[RecDetailModel alloc] initWithDictionary:responseObject[@"data"][@"posts"][0] error:nil];
         [self.dataSource addObjectsFromArray:rdm.related];
         
@@ -121,7 +118,7 @@
         
         [self initWebView:rdm.message_div]; //webView加载html请求
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    } failure:^(NSError *error) {
+    } failure:^(NSError * _Nonnull error) {
         
     }];
 }
@@ -164,13 +161,13 @@
         if ([url.scheme isEqualToString:@"applewebdata"]) {
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             if (url.query) {
-                [[NetworkHelper shareInstance] Get:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?%@",url.query] parameter:nil success:^(id responseObject) {
+                [[HDNetworking sharedHDNetworking] GET:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?%@",url.query] parameters:nil success:^(id  _Nonnull responseObject) {
                     NSString *url = responseObject[@"data"][@"sharing"][@"extended_url"];
                     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]]) {
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                     }
-                } failure:^(NSError *error) {
+                } failure:^(NSError * _Nonnull error) {
                     
                 }];
                 
@@ -179,13 +176,13 @@
                 NSArray *arr = [str componentsSeparatedByString:@"/"];
                NSString *goodsid = arr[arr.count - 2];
                 NSLog(@"goodsid = %@",goodsid);
-                [[NetworkHelper shareInstance] Get:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?id=%@",goodsid] parameter:nil success:^(id responseObject) {
+                [[HDNetworking sharedHDNetworking] GET:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?id=%@",goodsid] parameters:nil success:^(id  _Nonnull responseObject) {
                     NSString *url = responseObject[@"data"][@"sharing"][@"extended_url"];
                     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]]) {
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                     }
-                } failure:^(NSError *error) {
+                } failure:^(NSError * _Nonnull error) {
                     
                 }];
             }

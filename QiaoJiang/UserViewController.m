@@ -31,7 +31,6 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationItem.title = @"小匠";
     
     [self loadHeaderViewData];
@@ -43,11 +42,11 @@
 -(void)loadHeaderViewData
 {
     NSString *url = [NSString stringWithFormat:kUserInfo,self.user_id];
-    [[NetworkHelper shareInstance] Get:url parameter:nil success:^(id responseObject) {
+    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         _hv.name.text = responseObject[@"data"][@"user"][@"user_name"];
         [_hv.userImage sd_setImageWithURL:[NSURL URLWithString:responseObject[@"data"][@"user"][@"pic"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
-    } failure:^(NSError *error) {
-        NSLog(@"头图网络请求错误");
+    } failure:^(NSError * _Nonnull error) {
+        
     }];
 }
 
@@ -58,8 +57,7 @@
     hud.labelText = @"好货多多..";
     
     NSString *url = [NSString stringWithFormat:self.url,self.page,self.user_id];
-    [[NetworkHelper shareInstance] Get:url parameter:nil success:^(id responseObject) {
-        
+    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         if ([_collectionView.mj_header isRefreshing]) {
             [self.dataSource removeAllObjects];
         }
@@ -96,8 +94,7 @@
         
         [_collectionView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(NSError *error) {
-        NSLog(@"请求网络失败");
+    } failure:^(NSError * _Nonnull error) {
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -112,7 +109,7 @@
     flowLayout.itemSize = CGSizeMake(CGRectGetWidth(self.view.bounds)-16, 266);
     flowLayout.headerReferenceSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 180);
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-64) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)) collectionViewLayout:flowLayout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [self.view addSubview:_collectionView];

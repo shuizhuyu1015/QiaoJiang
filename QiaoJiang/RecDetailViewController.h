@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface RecDetailViewController : UIViewController
+@interface RecDetailViewController : BaseVC
 
 @property (nonatomic,copy) NSString *tid;
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface SearchViewController : UIViewController
+@interface SearchViewController : BaseVC
 
 @property (nonatomic,copy) NSString *url;
 

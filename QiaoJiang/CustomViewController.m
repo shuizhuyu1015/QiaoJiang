@@ -21,7 +21,7 @@
     self.tabBar.tintColor = [UIColor lightGrayColor];
 
     UIViewController *vc1 = self.viewControllers[0];
-    vc1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"精选" image:[self loadImage:@"tab_shang_nor@2x"] selectedImage:[self loadImage:@"tab_shang_sel@2x"]];
+    vc1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"推荐" image:[self loadImage:@"tab_shang_nor@2x"] selectedImage:[self loadImage:@"tab_shang_sel@2x"]];
     vc1.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
     UIViewController *vc2 = self.viewControllers[1];

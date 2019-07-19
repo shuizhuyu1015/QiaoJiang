@@ -85,8 +85,7 @@
 -(void)loadNetworkData
 {
     NSString *urlStr = [NSString stringWithFormat:kRecommend,self.page];
-    [[NetworkHelper shareInstance] Get:urlStr parameter:nil success:^(id responseObject) {
-        
+    [[HDNetworking sharedHDNetworking] GET:urlStr parameters:nil success:^(id  _Nonnull responseObject) {
         if ([_collectionView.mj_header isRefreshing]) {
             [self.dataSource removeAllObjects];
         }
@@ -103,9 +102,7 @@
         [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
-        
-    } failure:^(NSError *error) {
-        NSLog(@"error = %@",error);
+    } failure:^(NSError * _Nonnull error) {
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
     }];

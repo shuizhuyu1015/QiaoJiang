@@ -27,16 +27,6 @@
 
 -(void)resetNavigation
 {
-    // 设置自动调整ScrollView的ContentInset
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    //返回键只保留箭头
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
-    //item字体颜色
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    //title字体属性
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    //状态栏白字
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch:)];
 }
@@ -73,7 +63,7 @@
 - (void)addYGScrollTitleView
 {
     // 创建YGSrollViewTitleView
-    _titleView = [[YGScrollTitleView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 40) titles:_titles callBack:^(NSInteger pageIndex) {
+    _titleView = [[YGScrollTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 40) titles:_titles callBack:^(NSInteger pageIndex) {
         
         // 点击头部按钮时的回调
         // 设置scrollView的偏移量

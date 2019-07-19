@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface IdeaDetailViewController : UIViewController
+@interface IdeaDetailViewController : BaseVC
 
 @property (nonatomic,copy) NSString *group_id;
 

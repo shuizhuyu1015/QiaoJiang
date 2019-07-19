@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface RecommendViewController : UIViewController
+@interface RecommendViewController : BaseVC
 
 @end

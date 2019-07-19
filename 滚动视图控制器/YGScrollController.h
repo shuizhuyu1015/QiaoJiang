@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface YGScrollController : UIViewController
+@interface YGScrollController : BaseVC
 
 @end

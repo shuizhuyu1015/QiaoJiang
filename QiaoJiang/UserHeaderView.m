@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
     
         self.userImage.layer.cornerRadius = 30;
         self.userImage.layer.borderWidth = 1.5;

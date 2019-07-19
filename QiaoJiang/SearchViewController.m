@@ -7,10 +7,11 @@
 //
 
 #import "SearchViewController.h"
-#import "interface.h"
 #import "RecommendModel.h"
 #import "IdeaModel.h"
 #import "CreativeCell.h"
+#import "PYSearchView.h"
+
 #import "RecDetailViewController.h"
 #import "IdeaDetailViewController.h"
 #import "UserViewController.h"
@@ -30,17 +31,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //searchBar放到view再放到titleView上
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width-110, 25)];
-    titleView.layer.cornerRadius = 8;
+    UIView *titleView = [[PYSearchView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width-110, 30)];
+    titleView.layer.cornerRadius = 15;
     titleView.clipsToBounds = YES;
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(titleView.frame), 25)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(titleView.frame), 30)];
     UIColor *color = self.navigationController.navigationBar.barTintColor;
     self.searchBar.barTintColor = color;
-    self.searchBar.tintColor=[UIColor blueColor];
+    self.searchBar.tintColor=[UIColor grayColor];
     self.searchBar.placeholder = @"搜你想要的";
     self.searchBar.delegate = self;
     
@@ -89,9 +89,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"我正在努力..";
-    
-    [[NetworkHelper shareInstance] Get:searchUrl parameter:nil success:^(id responseObject) {
-
+    [[HDNetworking sharedHDNetworking] GET:searchUrl parameters:nil success:^(id  _Nonnull responseObject) {
         if ([_collectionView.mj_header isRefreshing]) {
             [self.dataSource removeAllObjects];
         }
@@ -126,8 +124,7 @@
         [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-    } failure:^(NSError *error) {
-        NSLog(@"error = %@",error);
+    } failure:^(NSError * _Nonnull error) {
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -140,7 +137,7 @@
     flowLayout.itemSize = CGSizeMake(CGRectGetWidth(self.view.bounds) - 20, 266);
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenSize.width,kScreenSize.height-64) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width,kScreenSize.height-kTopHeight) collectionViewLayout:flowLayout];
     _collectionView.backgroundColor = [UIColor colorWithRed:240/255.0 green:239/255.0 blue:238/255.0 alpha:1.0];
     
     _collectionView.delegate = self;
