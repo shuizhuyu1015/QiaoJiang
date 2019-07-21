@@ -44,4 +44,12 @@ _Pragma("clang diagnostic pop") \
 } while (0)
 
 
+
+/*!
+ @brief 常量字符串
+ */
+#define COLLECTED_PRODUCTS @"collected_products"  //沙盒被收藏商品id
+#define COLLECTED_IDEA @"collected_idea"  //收藏的匠心
+
+
 #endif /* CommonConstant_h */

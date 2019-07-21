@@ -9,6 +9,8 @@
 #import "GoodsListVC.h"
 #import "ProductDisplayCell.h"
 
+#import "GoodsDetailVC.h"
+
 static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
 
 @interface GoodsListVC () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -141,8 +143,10 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     ProductDisplayModel *model = self.dataSource[indexPath.item];
-    NSLog(@"%@", model.name);
-    
+
+    GoodsDetailVC *dvc = [[GoodsDetailVC alloc] init];
+    dvc.productId = model.productId;
+    [self.navigationController pushViewController:dvc animated:YES];
 }
 
 #pragma mark - 懒加载
@@ -156,7 +160,7 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
 -(UICollectionView *)collectionView {
     if (_collectionView == nil) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake(WID/2-1, 283);
+        flowLayout.itemSize = CGSizeMake(WID/2-2, 283);
         flowLayout.sectionInset = UIEdgeInsetsMake(10, 0, 10, 0);
         flowLayout.minimumInteritemSpacing = 2;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, WID, HEI-kTopHeight) collectionViewLayout:flowLayout];

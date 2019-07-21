@@ -28,6 +28,8 @@
 #define GET_PRODUCT_LIST @"https://api.thebeastshop.com/app/search/product?limit=20&listId=%@&offset=%d&sortField=SYNTHESIS&sortOrder=DESC"
 //product类型广告
 #define GET_PRODUCT_BY_ID @"https://api.thebeastshop.com/app/product/%@"
+//product推荐理由等介绍
+#define GET_PRODUCT_DETAILS_BY_ID @"https://api.thebeastshop.com/app/product/%@/details?legacy=0"
 
 
 /** ==========================================================

@@ -79,7 +79,7 @@
     
     
     // 创建滚动视图控制器的scrollView
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleView.frame), self.view.bounds.size.width, self.view.bounds.size.height)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleView.frame), self.view.bounds.size.width, HEI-kTopHeight-40-kTabBarHeight)];
     
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;

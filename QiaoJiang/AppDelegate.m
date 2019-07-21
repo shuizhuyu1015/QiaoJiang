@@ -20,6 +20,12 @@
     //启动页延时1秒
     [NSThread sleepForTimeInterval:1.0];
     
+    if (@available(iOS 11.0, *)) {
+        [UITableView appearance].estimatedRowHeight = 0;
+        [UITableView appearance].estimatedSectionFooterHeight = 0;
+        [UITableView appearance].estimatedSectionHeaderHeight = 0;
+    }
+    
     return YES;
 }
 

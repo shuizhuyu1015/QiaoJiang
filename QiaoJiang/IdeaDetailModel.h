@@ -17,7 +17,7 @@
 @property (nonatomic,copy) NSString *subTitle;
 @end
 
-@interface Case : JSONModel
+@interface Case : JSONModel <NSCoding>
 @property (nonatomic,copy) NSString *user_name;
 @property (nonatomic,copy) NSString *user_pic;
 @property (nonatomic,copy) NSString *user_id;
@@ -28,6 +28,7 @@
 @property (nonatomic,copy) NSString *budget;
 @property (nonatomic,copy) NSString *area;
 @property (nonatomic,copy) NSString *style;
+@property (nonatomic,copy) NSString *group_id;
 @end
 
 @interface IdeaDetailModel : JSONModel

@@ -19,6 +19,8 @@
     // Do any additional setup after loading the view.
     
     self.tabBar.tintColor = [UIColor lightGrayColor];
+    self.tabBar.barTintColor = [UIColor whiteColor];
+    self.tabBar.translucent = NO;
 
     UIViewController *vc1 = self.viewControllers[0];
     vc1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"推荐" image:[self loadImage:@"tab_shang_nor@2x"] selectedImage:[self loadImage:@"tab_shang_sel@2x"]];

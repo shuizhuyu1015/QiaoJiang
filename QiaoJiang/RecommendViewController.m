@@ -42,34 +42,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-//创建collectionView
--(void)initCollectionView
-{
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(CGRectGetWidth(self.view.bounds) - 20, 266);
-    flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds),CGRectGetHeight(self.view.bounds)-104-49) collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor colorWithRed:240/255.0 green:239/255.0 blue:238/255.0 alpha:1.0];
-    
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    _collectionView.scrollsToTop = NO;
-
-    [_collectionView registerNib:[UINib nibWithNibName:@"CreativeCell" bundle:nil] forCellWithReuseIdentifier:@"CreativeCellID"];
-    
-    _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        self.page = 1;
-        [self loadNetworkData];
-    }];
-    _collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.page ++;
-        [self loadNetworkData];
-    }];
-    
-    [self.view addSubview:_collectionView];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -79,6 +51,35 @@
     self.page = 1;
     [self loadNetworkData];
 
+}
+
+//创建collectionView
+-(void)initCollectionView
+{
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.itemSize = CGSizeMake(CGRectGetWidth(self.view.bounds) - 20, 266);
+    flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEI-kTopHeight-40-kTabBarHeight) collectionViewLayout:flowLayout];
+    _collectionView.backgroundColor = [UIColor colorWithRed:240/255.0 green:239/255.0 blue:238/255.0 alpha:1.0];
+    
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.scrollsToTop = NO;
+    
+    [_collectionView registerNib:[UINib nibWithNibName:@"CreativeCell" bundle:nil] forCellWithReuseIdentifier:@"CreativeCellID"];
+    
+    @WeakObj(self)
+    _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        selfWeak.page = 1;
+        [selfWeak loadNetworkData];
+    }];
+    _collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        selfWeak.page ++;
+        [selfWeak loadNetworkData];
+    }];
+    
+    [self.view addSubview:_collectionView];
 }
 
 //加载网络数据

@@ -26,7 +26,7 @@
 }
 
 -(void)refreshUI:(ProductDisplayModel *)model {
-    [self.featureImageView sd_setImageWithURL:[NSURL URLWithString:model.featureImage] placeholderImage:[UIImage imageNamed:@"default_item"]];
+    [self.featureImageView sd_setImageWithURL:[NSURL URLWithString:[model.featureImage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
     
     self.brandLabel.text = [NSString stringWithFormat:@"品牌：%@", model.brandName];
     

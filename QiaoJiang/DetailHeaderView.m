@@ -47,7 +47,7 @@
         user_id = [[model userCase] user_id];
         
     }else if ([model isKindOfClass:[RecDetailModel class]]){
-
+        [self.coverImage sd_setImageWithURL:[NSURL URLWithString:[model coverUrl]] placeholderImage:[UIImage imageNamed:@"default_item"]];
         self.name.text = [model author];
         [self.userImage sd_setImageWithURL:[NSURL URLWithString:[model user_pic]] placeholderImage:[UIImage imageNamed:@"default_item"]];
         self.titleLabel.text = [model subject];

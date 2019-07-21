@@ -78,7 +78,7 @@
     self.pageControl.hidden = imageArr.count <= 1 ? YES : NO;
     self.pageControl.numberOfPages = imageArr.count;
     // 用模型的标题属性,设置label的名字,
-//    self.label.text = imageArr[0][@"title"];
+//    self.label.text = titleArr[0];
     
     //  √√√  重要,清除上次的图片,否则每刷新一次图片会叠加
     for (UIView *view in _scrollView.subviews) {
@@ -92,7 +92,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:imageArr[0][@"url"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArr[0] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
         [self.scrollView addSubview:imageView];
         
     }else if (imageArr.count > 1){
@@ -106,12 +106,12 @@
             imageView.tag = 111+i;
             if (i == 0) {
                 // 开头是最后一张
-                [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArr lastObject][@"url"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[[imageArr lastObject] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
             }else if (i == imageArr.count + 1){
                 // 末尾是第一张
-                [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArr firstObject][@"url"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[[imageArr firstObject] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
             }else{
-                [imageView sd_setImageWithURL:[NSURL URLWithString:imageArr[i-1][@"url"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[imageArr[i-1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
             }
             
             [self.scrollView addSubview:imageView];
@@ -152,7 +152,7 @@
     
     // 设置pageControl的当前点
     self.pageControl.currentPage = _count - 1;
-//    self.label.text = self.imageArr[self.pageControl.currentPage][@"title"];
+//    self.label.text = titleArr[self.pageControl.currentPage];
     
 }
 // 总结: _count <---> contentOffset <---> currentPage 同步改变
@@ -169,7 +169,7 @@
     // pageControl同步
     self.pageControl.currentPage = scrollView.contentOffset.x / w - 1;
     // label文字同步
-//    self.label.text = self.imageArr[self.pageControl.currentPage][@"title"]; // 如换成标题名，可在这里换成标题数组
+//    self.label.text = titleArr[self.pageControl.currentPage]; // 如换成标题名，可在这里换成标题数组
 
     _count = scrollView.contentOffset.x / w;
      

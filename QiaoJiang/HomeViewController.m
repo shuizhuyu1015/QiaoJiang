@@ -64,7 +64,9 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
 
 #pragma mark - 获取首页数据
 -(void)getHomeRecommendData {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HDNetworking sharedHDNetworking] GET:HOME_RECOMMEND parameters:nil success:^(id  _Nonnull responseObject) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([responseObject[@"code"] intValue] == 200) {
             NSArray *modules = responseObject[@"data"][@"modules"];
             
@@ -80,7 +82,7 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
                         if ([linkType isEqualToString:@"deeplink"] && ![linkValue containsString:@"points-mall"]) {
                             AdvertiseModel *bannerModel = [[AdvertiseModel alloc] initWithDictionary:singleDic error:nil];
                             [self.banners addObject:bannerModel];
-                            [imagesArr addObject:@{@"url":bannerModel.banner.src, @"title":bannerModel.trackTitle}];
+                            [imagesArr addObject:bannerModel.banner.src];
                         }
                     }
                 }else if ([dataType isEqualToString:@"image-index"]) {

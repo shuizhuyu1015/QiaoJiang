@@ -19,6 +19,25 @@
 
 @implementation Case
 
+-(void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.user_name forKey:@"user_name"];
+    [aCoder encodeObject:self.user_pic forKey:@"user_pic"];
+    [aCoder encodeObject:self.cover forKey:@"cover"];
+    [aCoder encodeObject:self.title forKey:@"title"];
+    [aCoder encodeObject:self.group_id forKey:@"group_id"];
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super init]){
+        self.user_pic = [aDecoder decodeObjectForKey:@"user_pic"];
+        self.user_name = [aDecoder decodeObjectForKey:@"user_name"];
+        self.cover = [aDecoder decodeObjectForKey:@"cover"];
+        self.title = [aDecoder decodeObjectForKey:@"title"];
+        self.group_id = [aDecoder decodeObjectForKey:@"group_id"];
+    }
+    return self;
+}
+
 @end
 
 @implementation IdeaDetailModel

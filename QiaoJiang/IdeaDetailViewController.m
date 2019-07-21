@@ -29,17 +29,83 @@
     IdeaDetailModel *dm;
 }
 
--(void)resetNavigation
-{
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"家装创意";
-    //设置导航右button
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 80, 50);
-    [button setImage:[UIImage imageNamed:@"tab_jiang_nor@2x"] forState:UIControlStateNormal];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(7, 35, -7, -35)];
-    [button addTarget:self action:@selector(clickBBI:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];;
+    [self resetNavigation];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    label.center = self.view.center;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"正在加载,请骚等...";
+    label.textColor = [UIColor grayColor];
+    [self.view addSubview:label];
+    
+    //创建webView
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width, 1)];
+    _webView.delegate = self;
+    _webView.scrollView.scrollEnabled = NO;
+    _webView.scalesPageToFit = YES;
+    _webView.dataDetectorTypes = UIDataDetectorTypeNone;
+    
+    [self loadNetworkData];
+}
+
+-(void)resetNavigation
+{
+    NSUserDefaults *userDefault =[NSUserDefaults standardUserDefaults];
+    NSData *collectedData = [userDefault objectForKey:COLLECTED_IDEA];
+    NSDictionary *collectedDic = [NSKeyedUnarchiver unarchiveObjectWithData:collectedData];
+    
+    UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    collectBtn.frame = CGRectMake(0, 0, 40, 40);
+    [collectBtn setImage:[UIImage imageNamed:@"collection_sel"] forState:UIControlStateSelected];
+    [collectBtn setImage:[UIImage imageNamed:@"collection_nor"] forState:UIControlStateNormal];
+    [collectBtn addTarget:self action:@selector(collectIdea:) forControlEvents:UIControlEventTouchUpInside];
+    collectBtn.selected = [collectedDic.allKeys containsObject:self.group_id];
+    UIBarButtonItem *collectionBBI = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
+    
+    UIBarButtonItem *closeBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(clickCloseBBI)];
+    
+    UIBarButtonItem *flexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.navigationItem.rightBarButtonItems = @[closeBBI, flexBBI, collectionBBI];
+}
+
+//收藏本文
+-(void)collectIdea:(UIButton *)sender
+{
+    sender.selected = !sender.isSelected;
+    
+    NSUserDefaults *userDefault =[NSUserDefaults standardUserDefaults];
+    NSData *collectedData = [userDefault objectForKey:COLLECTED_IDEA];
+    NSDictionary *collectedDic = [NSKeyedUnarchiver unarchiveObjectWithData:collectedData];
+    NSMutableDictionary *dicM = nil;
+    if(collectedDic == nil) {
+        dicM = [[NSMutableDictionary alloc] init];
+    }else{
+        dicM = [NSMutableDictionary dictionaryWithDictionary:collectedDic];
+    }
+    
+    if(sender.isSelected){
+        if(dm == nil) {
+            return;
+        }
+        [dicM setValue:dm.userCase forKey:self.group_id];
+        [self showHint:@"收藏成功"];
+    }else{
+        [dicM removeObjectForKey:self.group_id];
+        [self showHint:@"取消收藏"];
+    }
+    NSData *allData = [NSKeyedArchiver archivedDataWithRootObject:dicM];
+    [userDefault setObject:allData forKey:COLLECTED_IDEA];
+    [userDefault synchronize];
+}
+
+-(void)clickCloseBBI {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 //加载tableView
@@ -69,42 +135,9 @@
     [self.view addSubview:_tableView];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    [self resetNavigation];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
-    label.center = self.view.center;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"正在加载,请骚等...";
-    label.textColor = [UIColor grayColor];
-    [self.view addSubview:label];
-    
-    //创建webView
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width, 1)];
-    _webView.delegate = self;
-    _webView.scrollView.scrollEnabled = NO;
-    _webView.scalesPageToFit = YES;
-    _webView.dataDetectorTypes = UIDataDetectorTypeNone;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self loadNetworkData];
-    });
-}
-
--(void)clickBBI:(UIBarButtonItem *)bbi
-{
-    //点击返回首页
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 //请求数据
 -(void)loadNetworkData
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSString *url = [NSString stringWithFormat:kDetail,self.group_id];
     [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         dm = [[IdeaDetailModel alloc] initWithDictionary:responseObject[@"data"] error:nil];
@@ -114,7 +147,6 @@
         
         [_hv refreshUI:dm];
         [self initWebView:dm.userCase.content]; //webView加载html请求
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     } failure:^(NSError * _Nonnull error) {
         
     }];
@@ -133,7 +165,7 @@
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"哎哟,图片有点多";
+    hud.labelText = @"图片加载中";
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
@@ -259,14 +291,5 @@
         [cache setMemoryCapacity:0];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -52,8 +52,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     }
     cell.textLabel.text = self.dataSource[indexPath.section][indexPath.row];
-    //获取图片缓存的大小
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1fM",(CGFloat)[[SDImageCache sharedImageCache] totalDiskSize] / 1024 / 1024];
+    if(indexPath.row == 0){
+        //获取图片缓存的大小
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1fM",(CGFloat)[[SDImageCache sharedImageCache] totalDiskSize] / 1024 / 1024];
+    }else{
+        cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    }
+    
     return cell;
 }
 
@@ -93,7 +98,7 @@
 -(NSMutableArray *)dataSource
 {
     if (_dataSource == nil) {
-        _dataSource = [[NSMutableArray alloc] initWithArray:@[@[@"清除缓存"]]];
+        _dataSource = [[NSMutableArray alloc] initWithArray:@[@[@"清除缓存",@"当前版本"]]];
     }
     return  _dataSource;
 }

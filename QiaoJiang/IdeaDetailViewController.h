@@ -11,6 +11,6 @@
 
 @interface IdeaDetailViewController : BaseVC
 
-@property (nonatomic,copy) NSString *group_id;
+@property (nonatomic, copy) NSString *group_id;
 
 @end

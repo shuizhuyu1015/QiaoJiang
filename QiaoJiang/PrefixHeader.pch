@@ -17,5 +17,6 @@
 #import "UIImageView+WebCache.h"
 #import "UIColor+expanded.h"
 #import "NSString+replace.h"
+#import "UIViewController+HUD.h"
 
 #endif /* PrefixHeader_pch */

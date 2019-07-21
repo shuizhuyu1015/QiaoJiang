@@ -29,17 +29,84 @@
     RecDetailModel *rdm;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.navigationItem.title = @"小匠推荐";
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self resetNavigation];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
+    label.center = self.view.center;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"正在加载,请骚等...";
+    label.textColor = [UIColor grayColor];
+    [self.view addSubview:label];
+    
+    //创建webView
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+    _webView.delegate = self;
+    _webView.scrollView.scrollEnabled = NO;
+    _webView.scalesPageToFit = YES;
+    _webView.dataDetectorTypes = UIDataDetectorTypeLink;
+    
+    [self loadNetworkData];
+}
+
 -(void)resetNavigation
 {
-    self.navigationItem.title = @"小匠推荐";
-    //设置导航右button
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 80, 50);
-    [button setImage:[UIImage imageNamed:@"tab_jiang_nor@2x"] forState:UIControlStateNormal];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(7, 35, -7, -35)];
-    [button addTarget:self action:@selector(clickBBI:) forControlEvents:UIControlEventTouchUpInside];
+    NSUserDefaults *userDefault =[NSUserDefaults standardUserDefaults];
+    NSData *collectedData = [userDefault objectForKey:COLLECTED_IDEA];
+    NSDictionary *collectedDic = [NSKeyedUnarchiver unarchiveObjectWithData:collectedData];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];;
+    UIButton *collectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    collectBtn.frame = CGRectMake(0, 0, 40, 40);
+    [collectBtn setImage:[UIImage imageNamed:@"collection_sel"] forState:UIControlStateSelected];
+    [collectBtn setImage:[UIImage imageNamed:@"collection_nor"] forState:UIControlStateNormal];
+    [collectBtn addTarget:self action:@selector(collectIdea:) forControlEvents:UIControlEventTouchUpInside];
+    collectBtn.selected = [collectedDic.allKeys containsObject:self.tid];
+    UIBarButtonItem *collectionBBI = [[UIBarButtonItem alloc] initWithCustomView:collectBtn];
+    
+    UIBarButtonItem *closeBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(clickCloseBBI)];
+    
+    UIBarButtonItem *flexBBI = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    self.navigationItem.rightBarButtonItems = @[closeBBI, flexBBI, collectionBBI];
+}
+
+//收藏本文
+-(void)collectIdea:(UIButton *)sender
+{
+    sender.selected = !sender.isSelected;
+    
+    NSUserDefaults *userDefault =[NSUserDefaults standardUserDefaults];
+    NSData *collectedData = [userDefault objectForKey:COLLECTED_IDEA];
+    NSDictionary *collectedDic = [NSKeyedUnarchiver unarchiveObjectWithData:collectedData];
+    NSMutableDictionary *dicM = nil;
+    if(collectedDic == nil) {
+        dicM = [[NSMutableDictionary alloc] init];
+    }else{
+        dicM = [NSMutableDictionary dictionaryWithDictionary:collectedDic];
+    }
+    
+    if(sender.isSelected){
+        if(rdm == nil) {
+            return;
+        }
+        [dicM setValue:rdm forKey:self.tid];
+        [self showHint:@"收藏成功"];
+    }else{
+        [dicM removeObjectForKey:self.tid];
+        [self showHint:@"取消收藏"];
+    }
+    NSData *allData = [NSKeyedArchiver archivedDataWithRootObject:dicM];
+    [userDefault setObject:allData forKey:COLLECTED_IDEA];
+    [userDefault synchronize];
+}
+
+-(void)clickCloseBBI {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 //加载tableView
@@ -71,53 +138,22 @@
     [self.view addSubview:_tableView];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self resetNavigation];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
-    label.center = self.view.center;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"正在加载,请骚等...";
-    label.textColor = [UIColor grayColor];
-    [self.view addSubview:label];
-    
-    //创建webView
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
-    _webView.delegate = self;
-    _webView.scrollView.scrollEnabled = NO;
-    _webView.scalesPageToFit = YES;
-    _webView.dataDetectorTypes = UIDataDetectorTypeLink;
-    
-    [self loadNetworkData];
-}
-
--(void)clickBBI:(UIBarButtonItem *)bbi
-{
-    //点击返回首页
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 //请求数据
 -(void)loadNetworkData
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     NSString *url = [NSString stringWithFormat:kRecDetail,self.tid];
     [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         rdm = [[RecDetailModel alloc] initWithDictionary:responseObject[@"data"][@"posts"][0] error:nil];
+        rdm.coverUrl = responseObject[@"data"][@"cover"];
+        
         [self.dataSource addObjectsFromArray:rdm.related];
         
         [self initTableView]; //请求成功,加载tableView
         
         //刷新表头
-        [_hv.coverImage sd_setImageWithURL:[NSURL URLWithString:responseObject[@"data"][@"cover"]] placeholderImage:[UIImage imageNamed:@"default_item"]];
         [_hv refreshUI:rdm];
         
         [self initWebView:rdm.message_div]; //webView加载html请求
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     } failure:^(NSError * _Nonnull error) {
         
     }];
@@ -135,7 +171,7 @@
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"哎哟,图片有点多";
+    hud.labelText = @"图片加载中";
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
