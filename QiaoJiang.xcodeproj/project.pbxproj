@@ -104,6 +104,7 @@
 		2ADDA46B22E37255002210AA /* collection.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDA46A22E37254002210AA /* collection.png */; };
 		2ADDA47022E37342002210AA /* DefaultModuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDA46E22E37342002210AA /* DefaultModuleCell.m */; };
 		2ADDA47122E37342002210AA /* DefaultModuleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDA46F22E37342002210AA /* DefaultModuleCell.xib */; };
+		72065BFD22E5B5CD00F332F6 /* CollectionArticleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 72065BFC22E5B5CD00F332F6 /* CollectionArticleVC.m */; };
 		7209CDB522AE3C1300B51D92 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7209CD4122AE3C1300B51D92 /* MKAnnotationView+WebCache.m */; };
 		7209CDB622AE3C1300B51D92 /* NSButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7209CD4322AE3C1300B51D92 /* NSButton+WebCache.m */; };
 		7209CDB722AE3C1300B51D92 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7209CD4522AE3C1300B51D92 /* NSData+ImageContentType.m */; };
@@ -376,6 +377,8 @@
 		2ADDA46D22E37342002210AA /* DefaultModuleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultModuleCell.h; sourceTree = "<group>"; };
 		2ADDA46E22E37342002210AA /* DefaultModuleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DefaultModuleCell.m; sourceTree = "<group>"; };
 		2ADDA46F22E37342002210AA /* DefaultModuleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefaultModuleCell.xib; sourceTree = "<group>"; };
+		72065BFB22E5B5CD00F332F6 /* CollectionArticleVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionArticleVC.h; sourceTree = "<group>"; };
+		72065BFC22E5B5CD00F332F6 /* CollectionArticleVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionArticleVC.m; sourceTree = "<group>"; };
 		7209CD4022AE3C1300B51D92 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		7209CD4122AE3C1300B51D92 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		7209CD4222AE3C1300B51D92 /* NSButton+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSButton+WebCache.h"; sourceTree = "<group>"; };
@@ -1070,6 +1073,8 @@
 				0403A6491CA3C6FF00FB58F6 /* MyViewController.m */,
 				2A639E6222E4AF5200C84ECC /* FavoriteGoodsVC.h */,
 				2A639E6322E4AF5200C84ECC /* FavoriteGoodsVC.m */,
+				72065BFB22E5B5CD00F332F6 /* CollectionArticleVC.h */,
+				72065BFC22E5B5CD00F332F6 /* CollectionArticleVC.m */,
 				040373621CB8D4F7000DB170 /* SettingViewController.h */,
 				040373631CB8D4F7000DB170 /* SettingViewController.m */,
 			);
@@ -1566,6 +1571,7 @@
 				7209CDCF22AE3C1300B51D92 /* SDImageGraphics.m in Sources */,
 				04089F8F1C998CB9000397D7 /* AppDelegate.m in Sources */,
 				04F796531C9FA222006DB59F /* UIScrollView+MJRefresh.m in Sources */,
+				72065BFD22E5B5CD00F332F6 /* CollectionArticleVC.m in Sources */,
 				2ADDA45E22E323B3002210AA /* JJMainScrollView.m in Sources */,
 				7209CDC522AE3C1300B51D92 /* SDImageAPNGCoder.m in Sources */,
 				723E3F3A22DC9D24006B7EC1 /* AFURLResponseSerialization.m in Sources */,

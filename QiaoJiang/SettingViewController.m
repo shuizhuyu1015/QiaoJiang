@@ -65,21 +65,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否要清除缓存?" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //清除硬盘图片缓存
-        [[SDImageCache sharedImageCache] clearMemory];
-        //清除内存图片缓存,可不写,防止清除后又要重新请求网络数据
-//        [[SDImageCache sharedImageCache] clearMemory];
-        
-        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-        [_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:action1];
-    [alert addAction:action2];
-    [self presentViewController:alert animated:YES completion:nil];
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否要清除缓存?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //清除硬盘图片缓存
+            [[SDImageCache sharedImageCache] clearMemory];
+            //清除内存图片缓存,可不写,防止清除后又要重新请求网络数据
+            //        [[SDImageCache sharedImageCache] clearMemory];
+            
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+            [_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action1];
+        [alert addAction:action2];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

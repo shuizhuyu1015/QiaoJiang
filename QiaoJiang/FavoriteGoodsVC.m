@@ -9,6 +9,8 @@
 #import "FavoriteGoodsVC.h"
 #import "FavoriteCell.h"
 
+#import "GoodsDetailVC.h"
+
 static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
 
 @interface FavoriteGoodsVC () <UITableViewDelegate, UITableViewDataSource>
@@ -83,11 +85,11 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 5;
+    return 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 5;
+    return CGFLOAT_MIN;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,6 +126,12 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    ProductDisplayModel *model = self.dataSource[indexPath.section];
+    
+    GoodsDetailVC *dvc = [[GoodsDetailVC alloc] init];
+    dvc.productId = model.productId;
+    [self.navigationController pushViewController:dvc animated:YES];
 }
 
 #pragma mark - lazy

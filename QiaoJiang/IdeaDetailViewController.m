@@ -13,14 +13,16 @@
 #import "IdeaDetailModel.h"
 #import "UserViewController.h"
 
+#import <WebKit/WebKit.h>
+
 #define kScreenSize [UIScreen mainScreen].bounds.size
 
-@interface IdeaDetailViewController () <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
+@interface IdeaDetailViewController () <UITableViewDataSource,UITableViewDelegate,WKNavigationDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) DetailHeaderView *hv;
-@property (nonatomic,strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *kWebView;
 
 @end
 
@@ -44,11 +46,9 @@
     [self.view addSubview:label];
     
     //创建webView
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width, 1)];
-    _webView.delegate = self;
-    _webView.scrollView.scrollEnabled = NO;
-    _webView.scalesPageToFit = YES;
-    _webView.dataDetectorTypes = UIDataDetectorTypeNone;
+    _kWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, WID, 1)];
+    _kWebView.navigationDelegate = self;
+    _kWebView.scrollView.scrollEnabled = NO;
     
     [self loadNetworkData];
 }
@@ -158,38 +158,37 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"web" ofType:@"html"];
     NSString *template = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSString *html = [NSString stringWithFormat:template,content]; //拼接html模板
-    [_webView loadHTMLString:html baseURL:nil];
+    [self.kWebView loadHTMLString:html baseURL:nil];
 }
 
 #pragma mark - webView代理方法
--(void)webViewDidStartLoad:(UIWebView *)webView
-{
+-(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"图片加载中";
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    NSString *js = [NSString stringWithFormat:@"imgAutoFit(%lf)",kScreenSize.width - 16];
-    [_webView stringByEvaluatingJavaScriptFromString:js];
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    NSString *js = [NSString stringWithFormat:@"imgAutoFit(%lf)",WID - 16];
+    [webView evaluateJavaScript:js completionHandler:nil];
     
-    CGFloat webViewHeight= [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"]floatValue];
-    CGRect newFrame = webView.frame;
-    newFrame.size.height = webViewHeight;
-    webView.frame = newFrame; //重新获取webview的尺寸
-    
-    [_tableView reloadData];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [webView evaluateJavaScript:@"document.body.offsetHeight" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        CGFloat documentHeight = [result doubleValue];
+        CGRect webFrame = webView.frame;
+        webFrame.size.height = documentHeight;
+        webView.frame = webFrame;
+        [_tableView reloadData];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-
-    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if(navigationAction.navigationType == WKNavigationTypeLinkActivated)//判断是否是点击链接
     {
-        return NO;
-    }else{
-        return YES;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
+    decisionHandler(WKNavigationActionPolicyAllow);
+    return;
 }
 
 #pragma mark - tableView代理方法
@@ -213,7 +212,7 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            [cell.contentView addSubview:_webView];
+            [cell.contentView addSubview:self.kWebView];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -228,7 +227,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return _webView.frame.size.height + 16;
+        return self.kWebView.frame.size.height + 30;
     }
     return 116;
 }

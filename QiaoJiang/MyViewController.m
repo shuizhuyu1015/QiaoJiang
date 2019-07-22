@@ -11,6 +11,7 @@
 #import "FavoriteGoodsVC.h"
 
 #import "SettingViewController.h"
+#import "CollectionArticleVC.h"
 
 static NSString *DefaultModuleCellID = @"DefaultModuleCellID";
 
@@ -28,7 +29,7 @@ static NSString *DefaultModuleCellID = @"DefaultModuleCellID";
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.tableView];
-    self.tableView.contentInset = UIEdgeInsetsMake(330, 0, 100, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(300*(HEI/667), 0, 100, 0);
 }
 
 - (IBAction)clickSetBtn:(UIBarButtonItem *)sender {
@@ -37,11 +38,12 @@ static NSString *DefaultModuleCellID = @"DefaultModuleCellID";
 }
 
 #pragma mark - tableview代理
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section { 
     return self.dataSoure.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    tableView.separatorColor = [UIColor colorWithHexString:@"e2e2e2"];
     DefaultModuleCell *cell = [tableView dequeueReusableCellWithIdentifier:DefaultModuleCellID forIndexPath:indexPath];
     NSDictionary *contentDic = self.dataSoure[indexPath.row];
     [cell refreshIcon:contentDic[@"image"] title:contentDic[@"title"]];
@@ -58,6 +60,9 @@ static NSString *DefaultModuleCellID = @"DefaultModuleCellID";
     if (indexPath.row == 0) {
         FavoriteGoodsVC *fvc = [[FavoriteGoodsVC alloc] init];
         [self.navigationController pushViewController:fvc animated:YES];
+    }else{
+        CollectionArticleVC *cvc = [[CollectionArticleVC alloc] init];
+        [self.navigationController pushViewController:cvc animated:YES];
     }
 }
 

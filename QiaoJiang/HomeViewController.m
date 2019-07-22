@@ -89,10 +89,11 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
                     NSDictionary *adDic = dataDic[@"data"];
                     NSString *linkType = adDic[@"link"][@"type"];
                     NSString *linkValue = adDic[@"link"][@"value"];
+                    NSString *trackTitle = adDic[@"trackTitle"];
                     if ([linkType isEqualToString:@"product"]
                         || [linkType isEqualToString:@"list"]
                         || ([linkType isEqualToString:@"deeplink"] && ![linkValue containsString:@"points-mall"])
-                        || ([linkType isEqualToString:@"article"] && ![adDic[@"trackTitle"] containsString:@"sale"] && ![adDic[@"trackTitle"] containsString:@"券"])) {
+                        || ([linkType isEqualToString:@"article"] && ![trackTitle containsString:@"sale"] && ![trackTitle containsString:@"券"] && ![trackTitle containsString:@"新人"])) {
                         AdvertiseModel *adModel = [[AdvertiseModel alloc] initWithDictionary:adDic error:nil];
                         [self.dataSource addObject:adModel];
                     }

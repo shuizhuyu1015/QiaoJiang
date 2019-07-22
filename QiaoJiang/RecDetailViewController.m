@@ -13,14 +13,16 @@
 #import "RelatedCell.h"
 #import "UserViewController.h"
 
+#import <WebKit/WebKit.h>
+
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 
-@interface RecDetailViewController () <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
+@interface RecDetailViewController () <UITableViewDataSource,UITableViewDelegate, WKNavigationDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) DetailHeaderView *hv;
-@property (nonatomic,strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *kWebView;
 
 @end
 
@@ -44,12 +46,9 @@
     label.textColor = [UIColor grayColor];
     [self.view addSubview:label];
     
-    //创建webView
-    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
-    _webView.delegate = self;
-    _webView.scrollView.scrollEnabled = NO;
-    _webView.scalesPageToFit = YES;
-    _webView.dataDetectorTypes = UIDataDetectorTypeLink;
+    _kWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+    _kWebView.navigationDelegate = self;
+    _kWebView.scrollView.scrollEnabled = NO;
     
     [self loadNetworkData];
 }
@@ -165,67 +164,36 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"web" ofType:@"html"];
     NSString *template = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSString *html = [NSString stringWithFormat:template,body]; //拼接html模板
-    [_webView loadHTMLString:html baseURL:nil];
+    [self.kWebView loadHTMLString:html baseURL:nil];
 }
 #pragma mark - webView代理方法
--(void)webViewDidStartLoad:(UIWebView *)webView
-{
+-(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"图片加载中";
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     NSString *js = [NSString stringWithFormat:@"imgAutoFit(%lf)",kScreenWidth - 16];
-    [_webView stringByEvaluatingJavaScriptFromString:js];
-
-    CGFloat webViewHeight= [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"]floatValue];
-    CGRect newFrame = webView.frame;
-    newFrame.size.height = webViewHeight;
-    webView.frame = newFrame; //重新获取webview的尺寸
+    [webView evaluateJavaScript:js completionHandler:nil];
     
-    [_tableView reloadData];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [webView evaluateJavaScript:@"document.body.offsetHeight" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        CGFloat documentHeight = [result doubleValue];
+        CGRect webFrame = webView.frame;
+        webFrame.size.height = documentHeight;
+        webView.frame = webFrame;
+        [_tableView reloadData];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
-    
-    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+-(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if(navigationAction.navigationType == WKNavigationTypeLinkActivated)//判断是否是点击链接
     {
-        NSURL *url = request.URL;
-        NSLog(@"url = %@",request.URL);
-        if ([url.scheme isEqualToString:@"applewebdata"]) {
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            if (url.query) {
-                [[HDNetworking sharedHDNetworking] GET:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?%@",url.query] parameters:nil success:^(id  _Nonnull responseObject) {
-                    NSString *url = responseObject[@"data"][@"sharing"][@"extended_url"];
-                    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]]) {
-                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    }
-                } failure:^(NSError * _Nonnull error) {
-                    
-                }];
-                
-            }else{
-                NSString *str = [url absoluteString];
-                NSArray *arr = [str componentsSeparatedByString:@"/"];
-               NSString *goodsid = arr[arr.count - 2];
-                NSLog(@"goodsid = %@",goodsid);
-                [[HDNetworking sharedHDNetworking] GET:[NSString stringWithFormat:@"http://m.yidoutang.com//apiv3/sharing/detail?id=%@",goodsid] parameters:nil success:^(id  _Nonnull responseObject) {
-                    NSString *url = responseObject[@"data"][@"sharing"][@"extended_url"];
-                    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]]) {
-                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-                        [MBProgressHUD hideHUDForView:self.view animated:YES];
-                    }
-                } failure:^(NSError * _Nonnull error) {
-                    
-                }];
-            }
-        }
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
-    return YES;
+    decisionHandler(WKNavigationActionPolicyAllow);
+    return;
 }
 
 #pragma mark - tableView代理方法
@@ -249,7 +217,7 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            [cell.contentView addSubview:_webView];
+            [cell.contentView addSubview:self.kWebView];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -264,7 +232,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return _webView.frame.size.height + 16;
+        return self.kWebView.frame.size.height + 30;
     }
     return 116;
 }
