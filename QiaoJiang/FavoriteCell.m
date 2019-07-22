@@ -32,6 +32,26 @@
         self.markLabel.text = pModel.brandName;
         
         self.tagLabel.text = [NSString stringWithFormat:@"¥%.2f", pModel.price];
+        
+    }else if ([model isKindOfClass:[Case class]]) {
+        Case *cModel = model;
+        [self.iconImage sd_setImageWithURL:[NSURL URLWithString:[cModel.cover stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+        
+        self.titleLabel.text = cModel.title;
+        
+        self.markLabel.text = cModel.user_name;
+        
+        self.tagLabel.text = [NSString stringWithFormat:@"预算：%@", cModel.budget];
+        
+    }else if ([model isKindOfClass:[RecDetailModel class]]) {
+        RecDetailModel *rModel = model;
+        [self.iconImage sd_setImageWithURL:[NSURL URLWithString:[rModel.coverUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]] placeholderImage:[UIImage imageNamed:@"default_item"]];
+        
+        self.titleLabel.text = rModel.subject;
+        
+        self.markLabel.text = rModel.author;
+        
+        self.tagLabel.text = nil;
     }
 }
 

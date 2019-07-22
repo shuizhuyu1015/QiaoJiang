@@ -69,11 +69,8 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否要清除缓存?" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //清除硬盘图片缓存
-            [[SDImageCache sharedImageCache] clearMemory];
-            //清除内存图片缓存,可不写,防止清除后又要重新请求网络数据
-            //        [[SDImageCache sharedImageCache] clearMemory];
+            [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
             
-            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
             [_tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }];
         UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];

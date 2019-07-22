@@ -148,6 +148,7 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerNib:[UINib nibWithNibName:@"FavoriteCell" bundle:nil] forCellReuseIdentifier:FavoriteGoodsCellID];
+        _tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
     }
     return _tableView;
 }
