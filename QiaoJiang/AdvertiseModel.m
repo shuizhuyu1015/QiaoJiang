@@ -39,7 +39,7 @@
 }
 
 +(JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithDictionary:@{@"image":@"banner", @"link":@"link", @"items":@"titles"}];
+    return [[JSONKeyMapper alloc] initWithDictionary:@{@"image":@"banner", @"items":@"titles"}];
 }
 
 -(NSString *)description {

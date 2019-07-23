@@ -190,6 +190,14 @@
 		723E3F4622DC9D24006B7EC1 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 723E3F3522DC9D23006B7EC1 /* UIWebView+AFNetworking.m */; };
 		72605DB322D344E400DD79B4 /* CreativeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 72605DB122D344E400DD79B4 /* CreativeCell.m */; };
 		72605DB422D344E400DD79B4 /* CreativeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72605DB222D344E400DD79B4 /* CreativeCell.xib */; };
+		7267768722E6FDB8006FF3DC /* CollectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267767D22E6FDB7006FF3DC /* CollectionHeader.m */; };
+		7267768822E6FDB8006FF3DC /* CollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7267767E22E6FDB7006FF3DC /* CollectionHeader.xib */; };
+		7267768922E6FDB8006FF3DC /* MultilevelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267768022E6FDB7006FF3DC /* MultilevelCollectionViewCell.m */; };
+		7267768A22E6FDB8006FF3DC /* MultilevelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7267768122E6FDB8006FF3DC /* MultilevelCollectionViewCell.xib */; };
+		7267768B22E6FDB8006FF3DC /* MultilevelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267768322E6FDB8006FF3DC /* MultilevelTableViewCell.m */; };
+		7267768C22E6FDB8006FF3DC /* MultilevelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7267768422E6FDB8006FF3DC /* MultilevelTableViewCell.xib */; };
+		7267768D22E6FDB8006FF3DC /* MultilevelMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267768622E6FDB8006FF3DC /* MultilevelMenu.m */; };
+		7267769022E6FF3E006FF3DC /* ClassifyGoodsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267768F22E6FF3E006FF3DC /* ClassifyGoodsVC.m */; };
 		727E76D122E19FFE007AFFA7 /* GoodsDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 727E76D022E19FFE007AFFA7 /* GoodsDetailVC.m */; };
 		72B3739122D6D29B0012896F /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B3739022D6D29B0012896F /* HomeViewController.m */; };
 		72B3739422D6D4E00012896F /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B3739322D6D4E00012896F /* UINavigationBar+Awesome.m */; };
@@ -557,6 +565,19 @@
 		72605DB222D344E400DD79B4 /* CreativeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreativeCell.xib; sourceTree = "<group>"; };
 		72605DB722D34C7200DD79B4 /* CommonConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonConstant.h; sourceTree = "<group>"; };
 		72605DB822D34CFC00DD79B4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		7267767C22E6FDB7006FF3DC /* CollectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeader.h; sourceTree = "<group>"; };
+		7267767D22E6FDB7006FF3DC /* CollectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeader.m; sourceTree = "<group>"; };
+		7267767E22E6FDB7006FF3DC /* CollectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionHeader.xib; sourceTree = "<group>"; };
+		7267767F22E6FDB7006FF3DC /* MultilevelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultilevelCollectionViewCell.h; sourceTree = "<group>"; };
+		7267768022E6FDB7006FF3DC /* MultilevelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultilevelCollectionViewCell.m; sourceTree = "<group>"; };
+		7267768122E6FDB8006FF3DC /* MultilevelCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultilevelCollectionViewCell.xib; sourceTree = "<group>"; };
+		7267768222E6FDB8006FF3DC /* MultilevelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultilevelTableViewCell.h; sourceTree = "<group>"; };
+		7267768322E6FDB8006FF3DC /* MultilevelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultilevelTableViewCell.m; sourceTree = "<group>"; };
+		7267768422E6FDB8006FF3DC /* MultilevelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultilevelTableViewCell.xib; sourceTree = "<group>"; };
+		7267768522E6FDB8006FF3DC /* MultilevelMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultilevelMenu.h; sourceTree = "<group>"; };
+		7267768622E6FDB8006FF3DC /* MultilevelMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultilevelMenu.m; sourceTree = "<group>"; };
+		7267768E22E6FF3E006FF3DC /* ClassifyGoodsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassifyGoodsVC.h; sourceTree = "<group>"; };
+		7267768F22E6FF3E006FF3DC /* ClassifyGoodsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassifyGoodsVC.m; sourceTree = "<group>"; };
 		727E76CF22E19FFE007AFFA7 /* GoodsDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoodsDetailVC.h; sourceTree = "<group>"; };
 		727E76D022E19FFE007AFFA7 /* GoodsDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailVC.m; sourceTree = "<group>"; };
 		72B3738F22D6D29B0012896F /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -806,6 +827,8 @@
 		0488DABE1CAD372C001FA2E6 /* category */ = {
 			isa = PBXGroup;
 			children = (
+				7267768E22E6FF3E006FF3DC /* ClassifyGoodsVC.h */,
+				7267768F22E6FF3E006FF3DC /* ClassifyGoodsVC.m */,
 			);
 			name = category;
 			sourceTree = "<group>";
@@ -893,6 +916,7 @@
 		04F7957A1C9FA186006DB59F /* third */ = {
 			isa = PBXGroup;
 			children = (
+				7267767A22E6FDB7006FF3DC /* MultilevelMenu */,
 				2ADDA45422E323B3002210AA /* JJPhotoViewer */,
 				723E3F0A22DC9D23006B7EC1 /* AFNetworking */,
 				721D4C8322D83676005D60E3 /* JSONKit */,
@@ -1383,6 +1407,32 @@
 			path = common;
 			sourceTree = "<group>";
 		};
+		7267767A22E6FDB7006FF3DC /* MultilevelMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7267767B22E6FDB7006FF3DC /* CellView */,
+				7267768522E6FDB8006FF3DC /* MultilevelMenu.h */,
+				7267768622E6FDB8006FF3DC /* MultilevelMenu.m */,
+			);
+			path = MultilevelMenu;
+			sourceTree = "<group>";
+		};
+		7267767B22E6FDB7006FF3DC /* CellView */ = {
+			isa = PBXGroup;
+			children = (
+				7267767C22E6FDB7006FF3DC /* CollectionHeader.h */,
+				7267767D22E6FDB7006FF3DC /* CollectionHeader.m */,
+				7267767E22E6FDB7006FF3DC /* CollectionHeader.xib */,
+				7267767F22E6FDB7006FF3DC /* MultilevelCollectionViewCell.h */,
+				7267768022E6FDB7006FF3DC /* MultilevelCollectionViewCell.m */,
+				7267768122E6FDB8006FF3DC /* MultilevelCollectionViewCell.xib */,
+				7267768222E6FDB8006FF3DC /* MultilevelTableViewCell.h */,
+				7267768322E6FDB8006FF3DC /* MultilevelTableViewCell.m */,
+				7267768422E6FDB8006FF3DC /* MultilevelTableViewCell.xib */,
+			);
+			path = CellView;
+			sourceTree = "<group>";
+		};
 		72B373A022D742A90012896F /* GLScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1492,11 +1542,13 @@
 				04089F951C998CB9000397D7 /* Main.storyboard in Resources */,
 				04089F9A1C998CB9000397D7 /* LaunchScreen.xib in Resources */,
 				C3F6D5C11CAADBC7008E7041 /* RelatedCell.xib in Resources */,
+				7267768822E6FDB8006FF3DC /* CollectionHeader.xib in Resources */,
 				2ADDA46522E33286002210AA /* collection_nor.png in Resources */,
 				2ADDA46B22E37255002210AA /* collection.png in Resources */,
 				0418F40A1CB53F34001DE77A /* UserHeaderView.xib in Resources */,
 				040308351C9BFD6600753185 /* default_item.png in Resources */,
 				040308361C9BFD6600753185 /* tab_fen_nor@2x.png in Resources */,
+				7267768A22E6FDB8006FF3DC /* MultilevelCollectionViewCell.xib in Resources */,
 				040308371C9BFD6600753185 /* tab_fen_sel@2x.png in Resources */,
 				040424BE1CAA86B100F8B344 /* btn_mypage_fav.png in Resources */,
 				2ADDA46222E323B3002210AA /* none.png in Resources */,
@@ -1518,6 +1570,7 @@
 				04575A1D1CAB78460088CAFA /* web.html in Resources */,
 				040424CE1CAAB8A600F8B344 /* DetailHeaderView.xib in Resources */,
 				0403083B1C9BFD6600753185 /* tab_my_sel@2x.png in Resources */,
+				7267768C22E6FDB8006FF3DC /* MultilevelTableViewCell.xib in Resources */,
 				04089F971C998CB9000397D7 /* Images.xcassets in Resources */,
 				2ADDA47122E37342002210AA /* DefaultModuleCell.xib in Resources */,
 				2A639E6E22E4B1F300C84ECC /* FavoriteCell.xib in Resources */,
@@ -1609,13 +1662,17 @@
 				723E3F4022DC9D24006B7EC1 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				7209CDEA22AE3C1300B51D92 /* UIImageView+WebCache.m in Sources */,
 				72B373A622D742A90012896F /* MyPageControl.m in Sources */,
+				7267768D22E6FDB8006FF3DC /* MultilevelMenu.m in Sources */,
 				2ADDA44C22E2B60E002210AA /* ProductDetailCell.m in Sources */,
 				04F796011C9FA186006DB59F /* JSONKeyMapper.m in Sources */,
 				7209CDE422AE3C1300B51D92 /* UIImage+GIF.m in Sources */,
 				04F796431C9FA222006DB59F /* MJRefreshBackFooter.m in Sources */,
+				7267768922E6FDB8006FF3DC /* MultilevelCollectionViewCell.m in Sources */,
 				72B3739722D6DAF00012896F /* AdvertiseModel.m in Sources */,
+				7267768B22E6FDB8006FF3DC /* MultilevelTableViewCell.m in Sources */,
 				0418F4091CB53F34001DE77A /* UserHeaderView.m in Sources */,
 				04F796441C9FA222006DB59F /* MJRefreshComponent.m in Sources */,
+				7267769022E6FF3E006FF3DC /* ClassifyGoodsVC.m in Sources */,
 				7209CDD022AE3C1300B51D92 /* SDImageIOCoder.m in Sources */,
 				721D4C9222D86407005D60E3 /* PYSearchView.m in Sources */,
 				7209CDC122AE3C1300B51D92 /* SDAnimatedImageRep.m in Sources */,
@@ -1679,6 +1736,7 @@
 				2ADDA46022E323B3002210AA /* JJPhoto.m in Sources */,
 				723E3F3922DC9D24006B7EC1 /* AFURLRequestSerialization.m in Sources */,
 				04F7964E1C9FA222006DB59F /* MJRefreshNormalHeader.m in Sources */,
+				7267768722E6FDB8006FF3DC /* CollectionHeader.m in Sources */,
 				04F795F91C9FA186006DB59F /* JSONModel.m in Sources */,
 				7209CDD322AE3C1300B51D92 /* SDImageTransformer.m in Sources */,
 				2A639E6422E4AF5200C84ECC /* FavoriteGoodsVC.m in Sources */,

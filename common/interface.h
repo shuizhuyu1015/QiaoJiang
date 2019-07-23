@@ -32,6 +32,13 @@
 #define GET_PRODUCT_DETAILS_BY_ID @"https://api.thebeastshop.com/app/product/%@/details?legacy=0"
 
 
+/*! ========================================================
+ @brief 分类模块
+ */
+//获取所有分类数据
+#define GET_CLASSIFY_DATA @"https://api.thebeastshop.com/app/index/classifyDataV2"
+
+
 /** ==========================================================
  匠心页面所有接口
  */

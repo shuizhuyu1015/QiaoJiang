@@ -43,8 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) BannerModel *banner;
 @property (nonatomic, strong) LinkModel *link;
-@property (nonatomic, strong) NSArray<TitleModel> *titles;
+@property (nonatomic, strong) NSArray<Optional,TitleModel> *titles;
 @property (nonatomic, copy) NSString *trackTitle;
+@property (nonatomic, copy) NSString *title;
 
 @end
 
