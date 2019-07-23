@@ -75,6 +75,7 @@
         self.leftTablew.separatorColor=self.leftSeparatorColor;
         
         
+        self.numberOfPerLine = 3;
         /**
          右边的视图
          */
@@ -137,6 +138,11 @@
     _leftSeparatorColor=leftSeparatorColor;
     self.leftTablew.separatorColor=leftSeparatorColor;
 }
+-(void)setNumberOfPerLine:(NSInteger)numberOfPerLine {
+    _numberOfPerLine = numberOfPerLine;
+    [self.rightCollection reloadData];
+}
+
 -(void)reloadData{
     
     [self.leftTablew reloadData];
@@ -198,16 +204,11 @@
     
     
     if (indexPath.row==self.selectIndex) {
-        NSLog(@"设置 点中");
         [self setLeftTablewCellSelected:YES withCell:cell];
     }
     else{
         [self setLeftTablewCellSelected:NO withCell:cell];
-
-        NSLog(@"设置 不点中");
-
     }
-    
 
     
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
@@ -280,9 +281,8 @@
     }
     
     RightMeun * title=self.allData[self.selectIndex];
-     return   title.nextArray.count;
-    
-    
+    return title.nextArray.count;
+
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -295,12 +295,12 @@
         {
             return 1;
         }
-        else
+        else {
             return sub.nextArray.count;
-        
+        }
     }
     else{
-    return title.nextArray.count;
+        return title.nextArray.count;
     }
 }
 
@@ -308,9 +308,7 @@
     
     RightMeun * title=self.allData[self.selectIndex];
     NSArray * list;
-    
-    
-    
+
     RightMeun * meun;
     
     meun=title.nextArray[indexPath.section];
@@ -389,15 +387,29 @@
     return view;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return CGSizeMake(60, 90);
+    CGFloat collectionWid = collectionView.bounds.size.width;
+    CGFloat itemWid = (collectionWid - 10*(self.numberOfPerLine+1)) / self.numberOfPerLine;
+    CGFloat itemHei = itemWid * 3 / 2;
+    return CGSizeMake(itemWid, itemHei);
 }
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 10, 0, 10);
 }
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    CGSize size={kScreenWidth,44};
-    return size;
+    CGSize size = {kScreenWidth,44};
+    
+    RightMeun * title = self.allData[self.selectIndex];
+    if (title.nextArray.count>0) {
+        RightMeun * meun = title.nextArray[section];
+        if (meun.meunName.length) {
+            return size;
+        }else{
+            return CGSizeZero;
+        }
+    }
+    else{
+        return size;
+    }
 }
 
 

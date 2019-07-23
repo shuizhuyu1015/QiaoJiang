@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray<Optional,TitleModel> *titles;
 @property (nonatomic, copy) NSString *trackTitle;
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, strong) NSNumber<Optional> *hideImage;
 
 @end
 

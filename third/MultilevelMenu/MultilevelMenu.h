@@ -63,6 +63,14 @@
  */
 @property(strong,nonatomic) UIColor * leftSeparatorColor;
 
+/*!
+ @brief 右侧每行显示几个item
+ */
+@property (nonatomic, assign) NSInteger numberOfPerLine;
+
+/*!
+ @brief 分类菜单初始化方法
+ */
 -(instancetype)initWithFrame:(CGRect)frame WithData:(NSArray*)data withSelectIndex:(void(^)(NSInteger left,NSInteger right,id info))selectIndex;
 
 @end
