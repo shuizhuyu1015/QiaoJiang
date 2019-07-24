@@ -33,7 +33,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     //searchBar放到view再放到titleView上
-    UIView *titleView = [[PYSearchView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width-110, 30)];
+    PYSearchView *titleView = [[PYSearchView alloc] initWithFrame:CGRectMake(0, 0, kScreenSize.width-110, 30)];
     titleView.layer.cornerRadius = 15;
     titleView.clipsToBounds = YES;
     

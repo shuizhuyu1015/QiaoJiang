@@ -13,6 +13,7 @@
 #import "CategoryModel.h"
 
 #import "GoodsListVC.h"
+#import "SearchProductVC.h"
 
 @interface ClassifyGoodsVC ()
 
@@ -26,7 +27,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch)];
+    
     [self loadClassifyData];
+}
+
+#pragma mark - 点击搜索
+-(void)clickSearch {
+    SearchProductVC *svc = [[SearchProductVC alloc] init];
+    [self.navigationController pushViewController:svc animated:NO];
 }
 
 #pragma mark - 获取分类数据
@@ -83,9 +92,10 @@
     
     MultilevelMenu *menu = [[MultilevelMenu alloc] initWithFrame:CGRectMake(0, 0, WID, HEI-kTopHeight-kTabBarHeight) WithData:dataList withSelectIndex:^(NSInteger left, NSInteger right, RightMeun *info) {
         NSLog(@"左侧第 %@ 个菜单，第 %@ 个分类， %@", @(left), @(right), info.meunName);
-        [self clickLevel1MenuAtIndex:left level2MenuAtIndex:right];
+        [self clickLevel1MenuAtIndex:left level2MenuAtIndex:right categoryTitle:info.meunName];
     }];
     menu.numberOfPerLine = 2;
+    menu.leftSelectColor = [UIColor colorWithHexString:@"60BAB9"];
     [self.view addSubview:menu];
 }
 
@@ -94,31 +104,46 @@
  @brief 点击跳转分类
  @param level1Index 左侧一级菜单下标
  @param level2Index 右侧二级菜单下标
+ @param title 分类菜单名
  */
--(void)clickLevel1MenuAtIndex:(NSInteger)level1Index level2MenuAtIndex:(NSInteger)level2Index {
+-(void)clickLevel1MenuAtIndex:(NSInteger)level1Index level2MenuAtIndex:(NSInteger)level2Index categoryTitle:(NSString *)title {
     CategoryModel *cModel = self.dataSource[level1Index];
     AdvertiseModel *aModel = cModel.subCategory[level2Index];
     NSLog(@"link = %@", aModel.link);
     
-    GoodsSourceType sourceType = 0;
+    GoodsListVC *gvc = [[GoodsListVC alloc] init];
+    gvc.navigationItem.title = title;
+    
     if ([aModel.link.type isEqualToString:@"all"]) {
-        sourceType = GoodsSourceTypeSearchAll;
+        gvc.sourceType = GoodsSourceTypeSearchAll;
         
     }else if ([aModel.link.type isEqualToString:@"deeplink"]) {
         NSURL *url = [NSURL URLWithString:aModel.link.value];
-        if (![url.host isEqualToString:@"search"]) {
-            return;
+        if ([url.host isEqualToString:@"search"]) {
+            if ([url.query containsString:@"new=1"]) {
+                gvc.sourceType = GoodsSourceTypeSearchNew;
+            }else if ([url.query containsString:@"param=discount"]){
+                gvc.sourceType = GoodsSourceTypeSearchDiscount;
+            }
         }
-        if ([url.query containsString:@"new=1"]) {
-            sourceType = GoodsSourceTypeSearchNew;
-        }else if ([url.query containsString:@"param=discount"]){
-            sourceType = GoodsSourceTypeSearchDiscount;
-        }
-    }else if ([aModel.link.type isEqualToString:@""]) {
+    }else if ([aModel.link.type isEqualToString:@"list"]) {
+        gvc.sourceType = GoodsSourceTypeSearchList;
+        gvc.searchId = aModel.link.value;
+        
+    }else if ([aModel.link.type isEqualToString:@"categoryOversea"]) {
+        gvc.sourceType = GoodsSourceTypeSearchCategoryOversea;
+        gvc.ids = [aModel.link.value componentsSeparatedByString:@","];
+        
+    }else if ([aModel.link.type isEqualToString:@"category"]) {
+        gvc.sourceType = GoodsSourceTypeSearchCategory;
+        gvc.ids = [aModel.link.value componentsSeparatedByString:@","];
+        
+    }else if ([aModel.link.type isEqualToString:@"brand"]) {
+        
+    }else if ([aModel.link.type isEqualToString:@"article"]) {
         
     }
-    GoodsListVC *gvc = [[GoodsListVC alloc] init];
-    gvc.sourceType = sourceType;
+    
     [self.navigationController pushViewController:gvc animated:YES];
 }
 

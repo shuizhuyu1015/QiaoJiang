@@ -71,15 +71,12 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
     }];
 }
 
-#pragma mark - 通过listId查找
+#pragma mark - 通过search/product查找
 -(void)searchGoods {
     NSMutableString *paraStr = [[NSMutableString alloc] init];
     [paraStr appendFormat:@"?limit=20&offset=%d&sortOrder=DESC", _offset];
     
     switch (self.sourceType) {
-        case GoodsSourceTypeSearchAll:
-            [paraStr appendString:@"&sortField=SYNTHESIS"];
-            break;
         case GoodsSourceTypeSearchNew:
             [paraStr appendString:@"&sortField=RELEASE&new=1"];
             break;
@@ -98,6 +95,7 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
             [paraStr appendString:[self joinStringWithCatrgoryIds]];
             break;
         default:
+            [paraStr appendString:@"&sortField=SYNTHESIS"];
             break;
     }
 

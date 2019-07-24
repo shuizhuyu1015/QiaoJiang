@@ -41,7 +41,7 @@
         
         self.markLabel.text = cModel.user_name;
         
-        self.tagLabel.text = [NSString stringWithFormat:@"预算：%@", cModel.budget];
+        self.tagLabel.text = [NSString stringWithFormat:@"预算:%@", cModel.budget];
         
     }else if ([model isKindOfClass:[RecDetailModel class]]) {
         RecDetailModel *rModel = model;
