@@ -64,7 +64,9 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
 
 #pragma mark - 获取首页数据
 -(void)getHomeRecommendData {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    
     [[HDNetworking sharedHDNetworking] GET:HOME_RECOMMEND parameters:nil success:^(id  _Nonnull responseObject) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([responseObject[@"code"] intValue] == 200) {

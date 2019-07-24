@@ -13,8 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, GoodsSourceType) {
     GoodsSourceTypeProductSimple = 0,   //通过ids查找
+    GoodsSourceTypeSearchAll,          //搜索全部
     GoodsSourceTypeSearchDiscount,     //搜索折扣
-    GoodsSourceTypeSearchList        //通过listid搜索
+    GoodsSourceTypeSearchList,        //通过listid搜索
+    GoodsSourceTypeSearchNew,         //搜索新品
+    GoodsSourceTypeSearchCategoryOversea,  //搜索跨境分类
+    GoodsSourceTypeSearchCategory     //搜索分类
 };
 
 @interface GoodsListVC : BaseVC

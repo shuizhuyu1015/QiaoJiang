@@ -42,18 +42,13 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
         case GoodsSourceTypeProductSimple:
             [self getGoodsByIds];
             break;
-        case GoodsSourceTypeSearchList:
-            [self getGoodsBySearchId];
-            break;
-        case GoodsSourceTypeSearchDiscount:
-            [self getGoodsDiscounted];
-            break;
         default:
+            [self searchGoods];
             break;
     }
 }
 
-#pragma mark - 通过商品ids查找
+#pragma mark - 通过商品id数组查找
 -(void)getGoodsByIds {
     [[HDNetworking sharedHDNetworking] POST:GET_PRODUCTS_BY_IDS parameters:self.ids success:^(id  _Nonnull responseObject) {
         if ([self.collectionView.mj_header isRefreshing]) {
@@ -61,9 +56,11 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
         }
         if ([responseObject[@"code"] intValue] == 200) {
             NSArray *dataArr = responseObject[@"data"];
-            for (NSDictionary *productDic in dataArr) {
-                ProductDisplayModel *model = [[ProductDisplayModel alloc] initWithDictionary:productDic error:nil];
-                [self.dataSource addObject:model];
+            for (id productDic in dataArr) {
+                if ([productDic isKindOfClass:[NSDictionary class]]) {
+                    ProductDisplayModel *model = [[ProductDisplayModel alloc] initWithDictionary:productDic error:nil];
+                    [self.dataSource addObject:model];
+                }
             }
         }
         [self.collectionView reloadData];
@@ -75,8 +72,36 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
 }
 
 #pragma mark - 通过listId查找
--(void)getGoodsBySearchId {
-    NSString *url = [NSString stringWithFormat:GET_PRODUCT_LIST, self.searchId, _offset];
+-(void)searchGoods {
+    NSMutableString *paraStr = [[NSMutableString alloc] init];
+    [paraStr appendFormat:@"?limit=20&offset=%d&sortOrder=DESC", _offset];
+    
+    switch (self.sourceType) {
+        case GoodsSourceTypeSearchAll:
+            [paraStr appendString:@"&sortField=SYNTHESIS"];
+            break;
+        case GoodsSourceTypeSearchNew:
+            [paraStr appendString:@"&sortField=RELEASE&new=1"];
+            break;
+        case GoodsSourceTypeSearchList:
+            [paraStr appendFormat:@"&sortField=SYNTHESIS&listId=%@", self.searchId];
+            break;
+        case GoodsSourceTypeSearchDiscount:
+            [paraStr appendString:@"&sortField=SYNTHESIS&param=discount"];
+            break;
+        case GoodsSourceTypeSearchCategory:
+            [paraStr appendString:@"&sortField=SYNTHESIS"];
+            [paraStr appendString:[self joinStringWithCatrgoryIds]];
+            break;
+        case GoodsSourceTypeSearchCategoryOversea:
+            [paraStr appendString:@"&sortField=SYNTHESIS&overseasOnly=true"];
+            [paraStr appendString:[self joinStringWithCatrgoryIds]];
+            break;
+        default:
+            break;
+    }
+
+    NSString *url = [NSString stringWithFormat:@"%@%@", SEARCH_PRODUCT_PATH, paraStr];
     [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         if ([self.collectionView.mj_header isRefreshing]) {
             [self.dataSource removeAllObjects];
@@ -103,29 +128,13 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
     }];
 }
 
-#pragma mark - 折扣商品
--(void)getGoodsDiscounted {
-    NSString *url = [NSString stringWithFormat:GET_DISCOUNT_PRODUCT, _offset];
-    
-    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
-        if ([self.collectionView.mj_header isRefreshing]) {
-            [self.dataSource removeAllObjects];
-        }
-        if ([responseObject[@"code"] intValue] == 200) {
-//            NSArray *dataArr = responseObject[@"data"][@"list"][@"items"];
-//            for (NSDictionary *goodsDic in dataArr) {
-//                ProductDisplayModel *model = [[ProductDisplayModel alloc] initWithDictionary:goodsDic error:nil];
-//                [self.dataSource addObject:model];
-//            }
-//            [self.collectionView.mj_footer endRefreshing];
-        }else{
-            [self.collectionView.mj_footer endRefreshingWithNoMoreData];
-        }
-        [self.collectionView reloadData];
-        [self.collectionView.mj_header endRefreshing];
-    } failure:^(NSError * _Nonnull error) {
-        
-    }];
+//拼接categoryId
+-(NSString *)joinStringWithCatrgoryIds {
+    NSMutableString *strM = [[NSMutableString alloc] init];
+    for (NSString *categotyId in self.ids) {
+        [strM appendFormat:@"&categoryId=%@", categotyId];
+    }
+    return strM;
 }
 
 #pragma mark - collectionView代理

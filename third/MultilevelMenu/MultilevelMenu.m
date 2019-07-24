@@ -62,7 +62,6 @@
         self.leftTablew=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, kLeftWidth, frame.size.height)];
         self.leftTablew.dataSource=self;
         self.leftTablew.delegate=self;
-        
         self.leftTablew.tableFooterView=[[UIView alloc] init];
         [self addSubview:self.leftTablew];
         self.leftTablew.backgroundColor=self.leftBgColor;
@@ -84,26 +83,23 @@
         flowLayout.minimumLineSpacing=0.f;
         float leftMargin =0;
         self.rightCollection=[[UICollectionView alloc] initWithFrame:CGRectMake(kLeftWidth+leftMargin,0,kScreenWidth-kLeftWidth-leftMargin*2,frame.size.height) collectionViewLayout:flowLayout];
-        
         self.rightCollection.delegate=self;
         self.rightCollection.dataSource=self;
         
         UINib *nib=[UINib nibWithNibName:kMultilevelCollectionViewCell bundle:nil];
-        
         [self.rightCollection registerNib: nib forCellWithReuseIdentifier:kMultilevelCollectionViewCell];
-        
-        
+
         UINib *header=[UINib nibWithNibName:kMultilevelCollectionHeader bundle:nil];
         [self.rightCollection registerNib:header forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kMultilevelCollectionHeader];
         
         [self addSubview:self.rightCollection];
-        
-      
-        self.isReturnLastOffset=YES;
+
         
         self.rightCollection.backgroundColor=self.leftSelectBgColor;
-
         self.backgroundColor=self.leftSelectBgColor;
+        
+        self.isReturnLastOffset=YES;
+        self.needToScorllerIndex = 0;
         
     }
     return self;

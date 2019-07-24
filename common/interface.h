@@ -20,12 +20,8 @@
 #define GET_ARTICLE_DETAIL @"https://api.thebeastshop.com/app/article/%@"
 //通过商品id数组获取商品列表
 #define GET_PRODUCTS_BY_IDS @"https://api.thebeastshop.com/app/product/simple"
-//折扣广告获取详情
-#define GET_DISCOUNT_PRODUCT @"https://api.thebeastshop.com/app/search/product?limit=20&offset=%d&param=discount&sortField=SYNTHESIS&sortOrder=DESC"
 //shop-story广告详情
 #define GET_SHOP_STORY @"https://api.thebeastshop.com/app/store/getOperation.json?shopId=%@"
-//list广告详情
-#define GET_PRODUCT_LIST @"https://api.thebeastshop.com/app/search/product?limit=20&listId=%@&offset=%d&sortField=SYNTHESIS&sortOrder=DESC"
 //product类型广告
 #define GET_PRODUCT_BY_ID @"https://api.thebeastshop.com/app/product/%@"
 //product推荐理由等介绍
@@ -37,6 +33,8 @@
  */
 //获取所有分类数据
 #define GET_CLASSIFY_DATA @"https://api.thebeastshop.com/app/index/classifyDataV2"
+//搜索产品
+#define SEARCH_PRODUCT_PATH  @"https://api.thebeastshop.com/app/search/product"
 
 
 /** ==========================================================
