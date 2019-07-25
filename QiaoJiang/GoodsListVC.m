@@ -39,8 +39,13 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
 
 -(void)loadNetworkData {
     switch (self.sourceType) {
-        case GoodsSourceTypeProductSimple:
-            [self getGoodsByIds];
+        case GoodsSourceTypeProductSimple:{
+            if (self.ids) {
+                [self getGoodsByIds];
+            }else{
+                [self searchGoods];
+            }
+        }
             break;
         default:
             [self searchGoods];
@@ -93,6 +98,9 @@ static NSString *ProductDisplayCellID = @"ProductDisplayCellID";
         case GoodsSourceTypeSearchCategoryOversea:
             [paraStr appendString:@"&sortField=SYNTHESIS&overseasOnly=true"];
             [paraStr appendString:[self joinStringWithCatrgoryIds]];
+            break;
+        case GoodsSourceTypeSearchBrand:
+            [paraStr appendFormat:@"&sortField=SYNTHESIS&brandId=%@", self.searchId];
             break;
         default:
             [paraStr appendString:@"&sortField=SYNTHESIS"];

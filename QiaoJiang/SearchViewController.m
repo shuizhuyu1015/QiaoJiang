@@ -11,6 +11,8 @@
 #import "IdeaModel.h"
 #import "CreativeCell.h"
 #import "PYSearchView.h"
+#import "GLEmptyDataView.h"
+#import "UICollectionView+NoData.h"
 
 #import "RecDetailViewController.h"
 #import "IdeaDetailViewController.h"
@@ -23,6 +25,7 @@
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,assign) NSInteger page;
+@property (nonatomic, strong) GLEmptyDataView *noDataView;
 @end
 
 @implementation SearchViewController
@@ -125,6 +128,7 @@
         [_collectionView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     } failure:^(NSError * _Nonnull error) {
+        [_collectionView reloadData];
         [_collectionView.mj_header endRefreshing];
         [_collectionView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -153,6 +157,7 @@
         self.page ++;
         [self loadNetworkData];
     }];
+    _collectionView.mj_footer.automaticallyHidden = YES;
     
     [self.view addSubview:_collectionView];
 }
@@ -160,6 +165,7 @@
 #pragma mark - collectionView代理方法
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    [collectionView displayView:self.noDataView ifNecessaryForItemCount:self.dataSource.count];
     return self.dataSource.count;
 }
 
@@ -208,6 +214,13 @@
         _dataSource = [[NSMutableArray alloc] init];
     }
     return _dataSource;
+}
+
+-(GLEmptyDataView *)noDataView {
+    if (_noDataView == nil) {
+        _noDataView = [[GLEmptyDataView alloc] initWithFrame:self.collectionView.bounds];
+    }
+    return _noDataView;
 }
 
 - (void)didReceiveMemoryWarning {

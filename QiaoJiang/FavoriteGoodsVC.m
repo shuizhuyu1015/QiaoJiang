@@ -8,6 +8,8 @@
 
 #import "FavoriteGoodsVC.h"
 #import "FavoriteCell.h"
+#import "GLEmptyDataView.h"
+#import "UITableView+EmptyPlaceHolder.h"
 
 #import "GoodsDetailVC.h"
 
@@ -17,6 +19,7 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) GLEmptyDataView *noDataView;
 
 @end
 
@@ -65,6 +68,7 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
 
 #pragma mark - tableview代理
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    [tableView tableViewDisplayView:self.noDataView ifNecessaryForRowCount:self.dataSource.count];
     return self.dataSource.count;
 }
 
@@ -151,6 +155,13 @@ static NSString *FavoriteGoodsCellID = @"FavoriteGoodsCellID";
         _tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
     }
     return _tableView;
+}
+
+-(GLEmptyDataView *)noDataView {
+    if (_noDataView == nil) {
+        _noDataView = [[GLEmptyDataView alloc] initWithFrame:self.tableView.bounds];
+    }
+    return _noDataView;
 }
 
 - (void)didReceiveMemoryWarning {

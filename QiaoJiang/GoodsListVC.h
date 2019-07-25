@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, GoodsSourceType) {
     GoodsSourceTypeSearchNew,         //搜索新品
     GoodsSourceTypeSearchCategoryOversea,  //搜索跨境分类
     GoodsSourceTypeSearchCategory,     //搜索分类
+    GoodsSourceTypeSearchBrand,        //搜索品牌
     GoodsSourceTypeProductSimple      //通过ids查找
 };
 

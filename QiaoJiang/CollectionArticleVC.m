@@ -8,6 +8,8 @@
 
 #import "CollectionArticleVC.h"
 #import "FavoriteCell.h"
+#import "GLEmptyDataView.h"
+#import "UITableView+EmptyPlaceHolder.h"
 
 #import "IdeaDetailViewController.h"
 #import "RecDetailViewController.h"
@@ -19,6 +21,7 @@ static NSString *CollectionCellID = @"CollectionCellID";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *allkeys;
 @property (nonatomic, strong) NSMutableArray *allValues;
+@property (nonatomic, strong) GLEmptyDataView *noDataView;
 
 @end
 
@@ -60,6 +63,7 @@ static NSString *CollectionCellID = @"CollectionCellID";
 
 #pragma mark - tableview代理
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    [tableView tableViewDisplayView:self.noDataView ifNecessaryForRowCount:self.allValues.count];
     return self.allValues.count;
 }
 
@@ -168,6 +172,13 @@ static NSString *CollectionCellID = @"CollectionCellID";
         _allkeys = [[NSMutableArray alloc] init];
     }
     return _allkeys;
+}
+
+-(GLEmptyDataView *)noDataView {
+    if (_noDataView == nil) {
+        _noDataView = [[GLEmptyDataView alloc] initWithFrame:self.tableView.bounds];
+    }
+    return _noDataView;
 }
 
 @end

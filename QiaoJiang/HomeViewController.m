@@ -170,14 +170,15 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
     [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         if ([responseObject[@"code"] intValue] == 200) {
             NSArray *modules = responseObject[@"data"][@"modules"];
+            __block NSArray *ids = nil;
             [modules enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *type = obj[@"type"];
                 if ([type isEqualToString:@"list"]) {
-                    NSArray *ids = obj[@"data"][@"ids"];
-                    [self jumpToGoodsVCBYTitle:title ids:ids searchId:nil type:GoodsSourceTypeProductSimple];
+                    ids = obj[@"data"][@"ids"];
                     *stop = YES;
                 }
             }];
+            [self jumpToGoodsVCBYTitle:title ids:ids searchId:nil type:GoodsSourceTypeProductSimple];
         }
     } failure:^(NSError * _Nonnull error) {
         
@@ -190,14 +191,15 @@ static NSString *AdvertiseCellID = @"AdvertiseCellID";
     [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
         if ([responseObject[@"code"] intValue] == 200) {
             NSArray *modules =  [responseObject[@"data"][@"modules"] objectFromJSONString];
+            __block NSArray *ids = nil;
             [modules enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSString *type = obj[@"type"];
                 if ([type isEqualToString:@"shop-list"]) {
-                    NSArray *ids = obj[@"data"][@"ids"];
-                    [self jumpToGoodsVCBYTitle:title ids:ids searchId:nil type:GoodsSourceTypeProductSimple];
+                    ids = obj[@"data"][@"ids"];
                     *stop = YES;
                 }
             }];
+            [self jumpToGoodsVCBYTitle:title ids:ids searchId:nil type:GoodsSourceTypeProductSimple];
         }
     } failure:^(NSError * _Nonnull error) {
         

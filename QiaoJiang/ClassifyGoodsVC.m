@@ -101,7 +101,7 @@
 
 #pragma mark - 点击跳转分类
 /*!
- @brief 点击跳转分类
+ @brief 判断菜单类型，提取参数
  @param level1Index 左侧一级菜单下标
  @param level2Index 右侧二级菜单下标
  @param title 分类菜单名
@@ -109,42 +109,84 @@
 -(void)clickLevel1MenuAtIndex:(NSInteger)level1Index level2MenuAtIndex:(NSInteger)level2Index categoryTitle:(NSString *)title {
     CategoryModel *cModel = self.dataSource[level1Index];
     AdvertiseModel *aModel = cModel.subCategory[level2Index];
-    NSLog(@"link = %@", aModel.link);
     
-    GoodsListVC *gvc = [[GoodsListVC alloc] init];
-    gvc.navigationItem.title = title;
+    GoodsSourceType sourceType = 0;
+    NSArray *ids = nil;
+    NSString *searchId = nil;
     
     if ([aModel.link.type isEqualToString:@"all"]) {
-        gvc.sourceType = GoodsSourceTypeSearchAll;
+        sourceType = GoodsSourceTypeSearchAll;
         
     }else if ([aModel.link.type isEqualToString:@"deeplink"]) {
         NSURL *url = [NSURL URLWithString:aModel.link.value];
         if ([url.host isEqualToString:@"search"]) {
             if ([url.query containsString:@"new=1"]) {
-                gvc.sourceType = GoodsSourceTypeSearchNew;
+                sourceType = GoodsSourceTypeSearchNew;
             }else if ([url.query containsString:@"param=discount"]){
-                gvc.sourceType = GoodsSourceTypeSearchDiscount;
+                sourceType = GoodsSourceTypeSearchDiscount;
             }
         }
     }else if ([aModel.link.type isEqualToString:@"list"]) {
-        gvc.sourceType = GoodsSourceTypeSearchList;
-        gvc.searchId = aModel.link.value;
+        sourceType = GoodsSourceTypeSearchList;
+        searchId = aModel.link.value;
         
     }else if ([aModel.link.type isEqualToString:@"categoryOversea"]) {
-        gvc.sourceType = GoodsSourceTypeSearchCategoryOversea;
-        gvc.ids = [aModel.link.value componentsSeparatedByString:@","];
+        sourceType = GoodsSourceTypeSearchCategoryOversea;
+        ids = [aModel.link.value componentsSeparatedByString:@","];
         
     }else if ([aModel.link.type isEqualToString:@"category"]) {
-        gvc.sourceType = GoodsSourceTypeSearchCategory;
-        gvc.ids = [aModel.link.value componentsSeparatedByString:@","];
+        sourceType = GoodsSourceTypeSearchCategory;
+        ids = [aModel.link.value componentsSeparatedByString:@","];
         
     }else if ([aModel.link.type isEqualToString:@"brand"]) {
+        sourceType = GoodsSourceTypeSearchBrand;
+        searchId = aModel.link.value;
         
     }else if ([aModel.link.type isEqualToString:@"article"]) {
-        
+        [self getGoodsIdsByArticleId:aModel.link.value title:title];
+        return;
     }
-    
+    [self jumpToGoodsVCBYTitle:title ids:ids searchId:searchId type:sourceType];
+}
+
+/*!
+ @brief 跳转商品列表
+ @param title 标题
+ @param ids 商品id数组
+ @param searchId 需要搜索的listid
+ @param sourceType 页面类型
+ */
+-(void)jumpToGoodsVCBYTitle:(NSString *)title ids:(NSArray *)ids searchId:(NSString *)searchId type:(GoodsSourceType)sourceType {
+    GoodsListVC *gvc = [[GoodsListVC alloc] init];
+    gvc.sourceType = sourceType;
+    gvc.ids = ids;
+    gvc.searchId = searchId;
+    gvc.navigationItem.title = title;
     [self.navigationController pushViewController:gvc animated:YES];
+}
+
+//获取article广告内商品ID
+-(void)getGoodsIdsByArticleId:(NSString *)articleId title:(NSString *)title {
+    
+    NSString *url = [NSString stringWithFormat:GET_ARTICLE_DETAIL, articleId];
+    [[HDNetworking sharedHDNetworking] GET:url parameters:nil success:^(id  _Nonnull responseObject) {
+        if ([responseObject[@"code"] intValue] == 200) {
+            NSArray *modules = responseObject[@"data"][@"modules"];
+            __block NSArray *ids = nil;
+            [modules enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSString *type = obj[@"type"];
+                if ([type isEqualToString:@"list"]) {
+                    //保存ids
+                    ids = obj[@"data"][@"ids"];
+                    //退出循环
+                    *stop = YES;
+                }
+            }];
+            [self jumpToGoodsVCBYTitle:title ids:ids searchId:nil type:GoodsSourceTypeProductSimple];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
 }
 
 

@@ -192,6 +192,10 @@
 		723E3F4622DC9D24006B7EC1 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 723E3F3522DC9D23006B7EC1 /* UIWebView+AFNetworking.m */; };
 		72605DB322D344E400DD79B4 /* CreativeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 72605DB122D344E400DD79B4 /* CreativeCell.m */; };
 		72605DB422D344E400DD79B4 /* CreativeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72605DB222D344E400DD79B4 /* CreativeCell.xib */; };
+		72666D9722E9516B0056679F /* UITableView+EmptyPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 72666D9622E9516B0056679F /* UITableView+EmptyPlaceHolder.m */; };
+		72666D9A22E9519B0056679F /* GLEmptyDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 72666D9922E9519B0056679F /* GLEmptyDataView.m */; };
+		72666D9C22E951CB0056679F /* icon_noshuju@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72666D9B22E951CB0056679F /* icon_noshuju@2x.png */; };
+		72666D9F22E960CA0056679F /* UICollectionView+NoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 72666D9E22E960CA0056679F /* UICollectionView+NoData.m */; };
 		7267768722E6FDB8006FF3DC /* CollectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267767D22E6FDB7006FF3DC /* CollectionHeader.m */; };
 		7267768822E6FDB8006FF3DC /* CollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7267767E22E6FDB7006FF3DC /* CollectionHeader.xib */; };
 		7267768922E6FDB8006FF3DC /* MultilevelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7267768022E6FDB7006FF3DC /* MultilevelCollectionViewCell.m */; };
@@ -571,6 +575,13 @@
 		72605DB222D344E400DD79B4 /* CreativeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreativeCell.xib; sourceTree = "<group>"; };
 		72605DB722D34C7200DD79B4 /* CommonConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonConstant.h; sourceTree = "<group>"; };
 		72605DB822D34CFC00DD79B4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		72666D9522E9516A0056679F /* UITableView+EmptyPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+EmptyPlaceHolder.h"; sourceTree = "<group>"; };
+		72666D9622E9516B0056679F /* UITableView+EmptyPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+EmptyPlaceHolder.m"; sourceTree = "<group>"; };
+		72666D9822E9519A0056679F /* GLEmptyDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLEmptyDataView.h; sourceTree = "<group>"; };
+		72666D9922E9519B0056679F /* GLEmptyDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLEmptyDataView.m; sourceTree = "<group>"; };
+		72666D9B22E951CB0056679F /* icon_noshuju@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_noshuju@2x.png"; sourceTree = "<group>"; };
+		72666D9D22E960CA0056679F /* UICollectionView+NoData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+NoData.h"; sourceTree = "<group>"; };
+		72666D9E22E960CA0056679F /* UICollectionView+NoData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+NoData.m"; sourceTree = "<group>"; };
 		7267767C22E6FDB7006FF3DC /* CollectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeader.h; sourceTree = "<group>"; };
 		7267767D22E6FDB7006FF3DC /* CollectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeader.m; sourceTree = "<group>"; };
 		7267767E22E6FDB7006FF3DC /* CollectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionHeader.xib; sourceTree = "<group>"; };
@@ -651,6 +662,7 @@
 		0403082B1C9BFD6600753185 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				72666D9B22E951CB0056679F /* icon_noshuju@2x.png */,
 				2ADDA46A22E37254002210AA /* collection.png */,
 				2ADDA46322E33286002210AA /* collection_nor.png */,
 				2ADDA46422E33286002210AA /* collection_sel.png */,
@@ -1408,6 +1420,7 @@
 		72605DB522D34B1900DD79B4 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				72666D9422E9512B0056679F /* GLNoDataView */,
 				723E3F1922DC9D23006B7EC1 /* HDNetworking */,
 				72B373A022D742A90012896F /* GLScrollView */,
 				72B3739E22D736180012896F /* UIColor+expanded.h */,
@@ -1431,6 +1444,19 @@
 				72605DB722D34C7200DD79B4 /* CommonConstant.h */,
 			);
 			path = common;
+			sourceTree = "<group>";
+		};
+		72666D9422E9512B0056679F /* GLNoDataView */ = {
+			isa = PBXGroup;
+			children = (
+				72666D9822E9519A0056679F /* GLEmptyDataView.h */,
+				72666D9922E9519B0056679F /* GLEmptyDataView.m */,
+				72666D9522E9516A0056679F /* UITableView+EmptyPlaceHolder.h */,
+				72666D9622E9516B0056679F /* UITableView+EmptyPlaceHolder.m */,
+				72666D9D22E960CA0056679F /* UICollectionView+NoData.h */,
+				72666D9E22E960CA0056679F /* UICollectionView+NoData.m */,
+			);
+			path = GLNoDataView;
 			sourceTree = "<group>";
 		};
 		7267767A22E6FDB7006FF3DC /* MultilevelMenu */ = {
@@ -1569,6 +1595,7 @@
 				04089F9A1C998CB9000397D7 /* LaunchScreen.xib in Resources */,
 				C3F6D5C11CAADBC7008E7041 /* RelatedCell.xib in Resources */,
 				7267768822E6FDB8006FF3DC /* CollectionHeader.xib in Resources */,
+				72666D9C22E951CB0056679F /* icon_noshuju@2x.png in Resources */,
 				2ADDA46522E33286002210AA /* collection_nor.png in Resources */,
 				2ADDA46B22E37255002210AA /* collection.png in Resources */,
 				0418F40A1CB53F34001DE77A /* UserHeaderView.xib in Resources */,
@@ -1644,6 +1671,7 @@
 				04F796541C9FA222006DB59F /* UIView+MJExtension.m in Sources */,
 				7209CDEC22AE3C1300B51D92 /* UIView+WebCacheOperation.m in Sources */,
 				721D4CA222D88C22005D60E3 /* ProductDisplayCell.m in Sources */,
+				72666D9F22E960CA0056679F /* UICollectionView+NoData.m in Sources */,
 				7209CDBE22AE3C1300B51D92 /* SDWeakProxy.m in Sources */,
 				2ADDA47022E37342002210AA /* DefaultModuleCell.m in Sources */,
 				C3D4F6851CB2A0C000E6BCC7 /* SearchViewController.m in Sources */,
@@ -1736,6 +1764,7 @@
 				2A639E6D22E4B1F300C84ECC /* FavoriteCell.m in Sources */,
 				7209CDCA22AE3C1300B51D92 /* SDImageCoder.m in Sources */,
 				7209CDB822AE3C1300B51D92 /* NSImage+Compatibility.m in Sources */,
+				72666D9722E9516B0056679F /* UITableView+EmptyPlaceHolder.m in Sources */,
 				04F795FC1C9FA186006DB59F /* JSONModelError.m in Sources */,
 				04F795FB1C9FA186006DB59F /* JSONModelClassProperty.m in Sources */,
 				04575A221CABCB0D0088CAFA /* RecommendViewController.m in Sources */,
@@ -1774,6 +1803,7 @@
 				04089F8C1C998CB9000397D7 /* main.m in Sources */,
 				2ADDA45022E2BA2F002210AA /* ProductDetailModel.m in Sources */,
 				7209CDD722AE3C1300B51D92 /* SDWebImageCompat.m in Sources */,
+				72666D9A22E9519B0056679F /* GLEmptyDataView.m in Sources */,
 				040424C11CAA8A8500F8B344 /* IdeaDetailViewController.m in Sources */,
 				723E3F3F22DC9D24006B7EC1 /* AFImageDownloader.m in Sources */,
 			);
